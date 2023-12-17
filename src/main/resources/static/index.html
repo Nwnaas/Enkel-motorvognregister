@@ -1,10 +1,81 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
+    <meta charset="UTF-8">
+    <title>Title</title>
 </head>
 <body>
-$END$
+
+<h1>Motorvognregister</h1>
+
+<form id="bilForm">
+
+  <label for="personNr">Eiers personnummer:</label>
+  <input type="number" id="personNr" name="personNr" minlength="11" maxlength="11"></br></br>
+
+  <label for="navn">Eiers navn:</label>
+  <input type="text" id="navn" name="navn" required></br></br>
+
+  <label for="adresse">Eiers adresse:</label>
+  <input type="text" id="adresse" name="adresse" required></br></br>
+
+  <label for="bilSkilt">Bilskilt:</label>
+  <input type="text" id="bilSkilt" name="bilSkilt" minlength="7" maxlength="7" required></br></br>
+
+  <label for="bilMerke">Bilmerke:</label>
+  <input type="text" id="bilMerke" name="bilMerke"  required></br></br>
+
+  <label for="bilModel">Bilmodel:</label>
+  <input type="text" id="bilModel" name="bilModel"  required></br></br>
+
+  <button type="button" onclick="addProdukt()">Legg til produkt</button>
+</form>
+
+<h2>Motorvognregister</h2>
+
+<table id="bilTable" >
+  <tr>
+    <th>PersonNr</th>
+    <th>Navn</th>
+    <th>Adresse</th>
+    <th>Bilskilt</th>
+    <th>Bilmerke</th>
+    <th>Bilmodel</th>
+    <th>Fjern</th>
+  </tr>
+</table>
+
+<script>
+  function addProdukt() {
+    var personNr = document.getElementById("personNr").value;
+    var navn = document.getElementById("navn").value;
+    var adresse = document.getElementById("adresse").value;
+    var bilSkilt = document.getElementById("bilSkilt").value;
+    var bilMerke = document.getElementById("bilMerke").value;
+    var bilModel = document.getElementById("bilModel").value;
+
+    var table = document.getElementById("bilTable");
+    var row = table.insertRow(-1);
+    var cell1 = row.insertCell(0);
+    var cell2 = row.insertCell(1);
+    var cell3 = row.insertCell(2);
+    var cell4 = row.insertCell(3);
+    var cell5 = row.insertCell(4);
+    var cell6 = row.insertCell(5);
+    var cell7 = row.insertCell(6);
+    cell1.innerHTML = personNr;
+    cell2.innerHTML = navn;
+    cell3.innerHTML = adresse;
+    cell4.innerHTML = bilSkilt;
+    cell5.innerHTML = bilMerke;
+    cell6.innerHTML = bilModel;
+    cell7.innerHTML = '<button onclick="deleteProdukt(this)">Slett</button>';
+  }
+
+  function deleteProdukt(row) {
+    var rowIndex = row.parentNode.parentNode.rowIndex;
+    document.getElementById("bilTable").deleteRow(rowIndex);
+  }
+</script>
 </body>
 </html>
