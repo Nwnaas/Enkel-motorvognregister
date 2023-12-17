@@ -107,6 +107,26 @@
     var pattern = /^[A-Za-z]{2}\d{5}$/;
     return pattern.test(bilSkilt);
   }
+  function validatePersonNr(personNr) {
+    // Sjekk om personNr har 11 siffer
+    if (!/^\d{11}$/.test(personNr)) {
+      return false;
+    }
+
+    // Sjekk om de to første tallene er mellom 01 og 31
+    var dayPart = parseInt(personNr.substr(0, 2), 10);
+    if (!(dayPart >= 1 && dayPart <= 31)) {
+      return false;
+    }
+
+    // Sjekk om de to neste tallene er mellom 01 og 12
+    var monthPart = parseInt(personNr.substr(2, 2), 10);
+    if (!(monthPart >= 1 && monthPart <= 12)) {
+      return false;
+    }
+
+    return true;
+  }
   function addProdukt() {
     var personNr = document.getElementById("personNr").value;
     var navn = document.getElementById("navn").value;
@@ -114,6 +134,11 @@
     var bilSkilt = document.getElementById("bilSkilt").value;
     var bilMerke = document.getElementById("bilMerke").value;
     var bilModel = document.getElementById("bilModel").value;
+
+    if (!validatePersonNr(personNr)) {
+      alert("Vennligst skriv inn et gyldig personnummer.");
+      return;
+    }
 
     if (!validateBilSkilt(bilSkilt)) {
       alert("Vennligst skriv inn bilskilt på riktig format (2 bokstaver + 5 tall).");
