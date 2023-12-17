@@ -11,22 +11,78 @@
 <form id="bilForm">
 
   <label for="personNr">Eiers personnummer:</label>
-  <input type="number" id="personNr" name="personNr" minlength="11" maxlength="11"></br></br>
+  <input type="text" id="personNr" name="personNr" maxlength="11"></br></br>
 
   <label for="navn">Eiers navn:</label>
   <input type="text" id="navn" name="navn" required></br></br>
 
   <label for="adresse">Eiers adresse:</label>
-  <input type="text" id="adresse" name="adresse" required></br></br>
+  <input type="text" list="gateadresseListe" id="adresse" name="adresse"></br></br>
+  <datalist id="gateadresseListe"></datalist>
 
   <label for="bilSkilt">Bilskilt:</label>
   <input type="text" id="bilSkilt" name="bilSkilt" minlength="7" maxlength="7" required></br></br>
 
   <label for="bilMerke">Bilmerke:</label>
-  <input type="text" id="bilMerke" name="bilMerke"  required></br></br>
+  <input type="text" list="bilMerkeList" id="bilMerke" name="bilMerke"  required></br></br>
+
+  <datalist id="bilMerkeList">
+    <option value="Toyota"></option>
+    <option value="Volkswagen"></option>
+    <option value="Ford"></option>
+    <option value="Chevrolet"></option>
+    <option value="Nissan"></option>
+    <option value="Honda"></option>
+    <option value="Mercedes-Benz"></option>
+    <option value="BMW"></option>
+    <option value="Audi"></option>
+    <option value="Hyundai"></option>
+    <option value="Tesla"></option>
+    <option value="Volvo"></option>
+    <option value="Kia"></option>
+    <option value="Subaru"></option>
+    <option value="Mazda"></option>
+    <option value="Lexus"></option>
+    <option value="Jeep"></option>
+    <option value="Ram"></option>
+    <option value="Porsche"></option>
+    <option value="Acura"></option>
+    <option value="Infiniti"></option>
+    <option value="Land Rover"></option>
+    <option value="Jaguar"></option>
+    <option value="Fiat"></option>
+    <option value="Mitsubishi"></option>
+    <option value="Buick"></option>
+    <option value="GMC"></option>
+    <option value="Chrysler"></option>
+    <option value="Dodge"></option>
+    <option value="Cadillac"></option>
+    <option value="Lincoln"></option>
+    <option value="Mini"></option>
+    <option value="Alfa Romeo"></option>
+    <option value="Ferrari"></option>
+    <option value="Lamborghini"></option>
+    <option value="Maserati"></option>
+    <option value="Bentley"></option>
+    <option value="Rolls-Royce"></option>
+    <option value="Aston Martin"></option>
+    <option value="McLaren"></option>
+    <option value="Bugatti"></option>
+    <option value="Lotus"></option>
+    <option value="Genesis"></option>
+    <option value="Rivian"></option>
+    <option value="Lucid"></option>
+    <option value="Polestar"></option>
+    <option value="Jaguar"></option>
+    <option value="Koenigsegg"></option>
+    <option value="Pagani"></option>
+    <option value="Fisker"></option>
+    <option value="Byton"></option>
+  </datalist>
 
   <label for="bilModel">Bilmodel:</label>
-  <input type="text" id="bilModel" name="bilModel"  required></br></br>
+  <input type="text" list="bilModelList" id="bilModel" name="bilModel"  required></br></br>
+  <datalist id="bilModelList"></datalist>
 
   <button type="button" onclick="addProdukt()">Legg til produkt</button>
 </form>
@@ -46,6 +102,7 @@
 </table>
 
 <script>
+
   function addProdukt() {
     var personNr = document.getElementById("personNr").value;
     var navn = document.getElementById("navn").value;
@@ -70,12 +127,211 @@
     cell5.innerHTML = bilMerke;
     cell6.innerHTML = bilModel;
     cell7.innerHTML = '<button onclick="deleteProdukt(this)">Slett</button>';
+    document.getElementById("personNr").value = "";
+    document.getElementById("navn").value = "";
+    document.getElementById("adresse").value = "";
+    document.getElementById("bilSkilt").value = "";
+    document.getElementById("bilMerke").value = "";
+    document.getElementById("bilModel").value = "";
   }
 
   function deleteProdukt(row) {
     var rowIndex = row.parentNode.parentNode.rowIndex;
     document.getElementById("bilTable").deleteRow(rowIndex);
   }
+
+  document.getElementById('adresse').addEventListener('input', function() {
+    var searchTerm = this.value;
+    var datalistElement = document.getElementById('gateadresseListe');
+
+    // Hent gateadresser fra Kartverket Norgeskart API
+    fetch(`https://ws.geonorge.no/adresser/v1/sok?sok=${searchTerm}&treffPerSide=10`)
+            .then(response => response.json())
+            .then(data => {
+              // Tøm datalisten
+              datalistElement.innerHTML = "";
+
+              // Legg til gateadresser i datalisten
+              data.adresser.forEach(adresse => {
+                var option = document.createElement("option");
+                option.value = adresse.adressetekst;
+                datalistElement.appendChild(option);
+              });
+            })
+            .catch(error => console.error("Feil ved henting av gateadresser:", error));
+  });
+
+  document.getElementById('bilMerke').addEventListener('input', function() {
+    var brand = this.value.toLowerCase();
+    var models = document.getElementById('bilModelList');
+    models.innerHTML = '';
+
+    switch (brand) {
+      case 'toyota':
+        addModels(['Camry', 'Corolla', 'Rav4', 'Highlander', 'Prius', 'Sienna', 'Tacoma', 'Tundra', '4Runner', 'Land Cruiser']);
+        break;
+      case 'volkswagen':
+        addModels(['Golf', 'Passat', 'Tiguan', 'Atlas', 'Jetta', 'Arteon', 'ID.4', 'Touareg', 'Atlas Cross Sport', 'Taos']);
+        break;
+      case 'ford':
+        addModels(['F-150', 'Focus', 'Escape', 'Explorer', 'Mustang', 'Edge', 'Ranger', 'Fusion', 'Expedition', 'Bronco']);
+        break;
+      case 'chevrolet':
+        addModels(['Silverado', 'Equinox', 'Malibu', 'Camaro', 'Tahoe', 'Traverse', 'Colorado', 'Blazer', 'Suburban', 'Trailblazer']);
+        break;
+      case 'nissan':
+        addModels(['Rogue', 'Altima', 'Sentra', 'Murano', 'Pathfinder', 'Titan', 'Maxima', 'Armada', 'Versa', 'Kicks']);
+        break;
+      case 'honda':
+        addModels(['Civic', 'Accord', 'CR-V', 'Pilot', 'Odyssey', 'Fit', 'HR-V', 'Ridgeline', 'Insight', 'Passport']);
+        break;
+      case 'mercedes-benz':
+        addModels(['C-Class', 'E-Class', 'S-Class', 'GLC', 'GLE', 'A-Class', 'CLA', 'GLA', 'G-Class', 'GLS']);
+        break;
+      case 'bmw':
+        addModels(['3 Series', '5 Series', '7 Series', 'X3', 'X5', 'X1', '4 Series', 'X7', '2 Series', '8 Series']);
+        break;
+      case 'audi':
+        addModels(['A4', 'A6', 'Q5', 'Q7', 'Q3', 'A3', 'A8', 'Q8', 'e-tron', 'RS6 Avant']);
+        break;
+      case 'hyundai':
+        addModels(['Elantra', 'Tucson', 'Santa Fe', 'Kona', 'Palisade', 'Sonata', 'Venue', 'Ioniq', 'Veloster', 'Genesis']);
+        break;
+      case 'tesla':
+        addModels(['Model 3', 'Model S', 'Model X', 'Model Y', 'Cybertruck', 'Roadster']);
+        break;
+      case 'volvo':
+        addModels(['XC90', 'XC60', 'S60', 'S90', 'V60', 'V90', 'XC40', 'C40', 'Polestar 2']);
+        break;
+      case 'kia':
+        addModels(['Seltos', 'Sportage', 'Telluride', 'Sorento', 'Forte', 'Soul', 'Niro', 'Cadenza', 'Stinger', 'Rio']);
+        break;
+      case 'subaru':
+        addModels(['Outback', 'Forester', 'Crosstrek', 'Ascent', 'Impreza', 'Legacy', 'BRZ']);
+        break;
+      case 'mazda':
+        addModels(['CX-5', 'Mazda3', 'CX-9', 'Mazda6', 'MX-5 Miata', 'CX-30']);
+        break;
+      case 'lexus':
+        addModels(['RX', 'NX', 'ES', 'UX', 'GX', 'IS', 'LS', 'LC', 'LX']);
+        break;
+      case 'jeep':
+        addModels(['Grand Cherokee', 'Cherokee', 'Wrangler', 'Compass', 'Renegade', 'Gladiator']);
+        break;
+      case 'ram':
+        addModels(['1500', '2500', '3500', 'ProMaster', 'ProMaster City']);
+        break;
+      case 'porsche':
+        addModels(['911', 'Cayenne', 'Panamera', 'Macan', 'Taycan']);
+        break;
+      case 'acura':
+        addModels(['MDX', 'RDX', 'TLX', 'ILX']);
+        break;
+      case 'infiniti':
+        addModels(['QX60', 'QX50', 'Q50', 'QX80', 'QX30']);
+        break;
+      case 'land rover':
+        addModels(['Range Rover', 'Discovery', 'Defender', 'Range Rover Sport', 'Range Rover Velar']);
+        break;
+      case 'jaguar':
+        addModels(['F-PACE', 'E-PACE', 'I-PACE', 'XF', 'XJ']);
+        break;
+      case 'fiat':
+        addModels(['500', '500X', '500L']);
+        break;
+      case 'mitsubishi':
+        addModels(['Outlander', 'Eclipse Cross', 'Outlander Sport']);
+        break;
+      case 'buick':
+        addModels(['Encore', 'Enclave', 'Envision']);
+        break;
+      case 'gmc':
+        addModels(['Sierra 1500', 'Yukon', 'Acadia', 'Terrain', 'Canyon']);
+        break;
+      case 'chrysler':
+        addModels(['Pacifica', 'Voyager', '300']);
+        break;
+      case 'dodge':
+        addModels(['Durango', 'Charger', 'Challenger', 'Journey']);
+        break;
+      case 'cadillac':
+        addModels(['XT5', 'Escalade', 'XT4', 'CT5', 'CT4']);
+        break;
+      case 'lincoln':
+        addModels(['Navigator', 'Aviator', 'Corsair', 'Nautilus']);
+        break;
+      case 'mini':
+        addModels(['Cooper', 'Countryman', 'Clubman']);
+        break;
+      case 'alfa romeo':
+        addModels(['Giulia', 'Stelvio']);
+        break;
+      case 'ferrari':
+        addModels(['F8 Tributo', '812 Superfast', 'Roma', 'SF90 Stradale']);
+        break;
+      case 'lamborghini':
+        addModels(['Urus', 'Huracán', 'Aventador']);
+        break;
+      case 'maserati':
+        addModels(['Levante', 'Ghibli', 'Quattroporte']);
+        break;
+      case 'bentley':
+        addModels(['Bentayga', 'Continental GT', 'Flying Spur']);
+        break;
+      case 'rolls-royce':
+        addModels(['Phantom', 'Cullinan', 'Ghost', 'Wraith']);
+        break;
+      case 'aston martin':
+        addModels(['DB11', 'DBS Superleggera', 'Vantage']);
+        break;
+      case 'mclaren':
+        addModels(['720S', '570S', 'GT']);
+        break;
+      case 'bugatti':
+        addModels(['Chiron', 'Divo']);
+        break;
+      case 'lotus':
+        addModels(['Evora', 'Elise', 'Exige']);
+        break;
+      case 'genesis':
+        addModels(['G80', 'G90', 'GV80']);
+        break;
+      case 'rivian':
+        addModels(['R1T', 'R1S']);
+        break;
+      case 'lucid':
+        addModels(['Air']);
+        break;
+      case 'polestar':
+        addModels(['Polestar 2']);
+        break;
+      case 'jaguar':
+        addModels(['F-PACE', 'E-PACE', 'I-PACE', 'XF', 'XJ']);
+        break;
+      case 'koenigsegg':
+        addModels(['Jesko', 'Gemera', 'Regera']);
+        break;
+      case 'pagani':
+        addModels(['Huayra', 'Huayra Roadster', 'Huayra BC']);
+        break;
+      case 'fisker':
+        addModels(['Ocean']);
+        break;
+      case 'byton':
+        addModels(['M-Byte']);
+        break;
+      default:
+        break;
+    }
+
+    function addModels(modelArray) {
+      modelArray.forEach(function(model) {
+        var option = document.createElement('option');
+        option.value = model;
+        models.appendChild(option);
+      });
+    }
+  });
 </script>
 </body>
 </html>
