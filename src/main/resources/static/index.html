@@ -102,7 +102,11 @@
 </table>
 
 <script>
-
+  function validateBilSkilt(bilSkilt) {
+    // Mønster for å validere bilskilt på formen 2 bokstaver + 5 tall
+    var pattern = /^[A-Za-z]{2}\d{5}$/;
+    return pattern.test(bilSkilt);
+  }
   function addProdukt() {
     var personNr = document.getElementById("personNr").value;
     var navn = document.getElementById("navn").value;
@@ -110,6 +114,11 @@
     var bilSkilt = document.getElementById("bilSkilt").value;
     var bilMerke = document.getElementById("bilMerke").value;
     var bilModel = document.getElementById("bilModel").value;
+
+    if (!validateBilSkilt(bilSkilt)) {
+      alert("Vennligst skriv inn bilskilt på riktig format (2 bokstaver + 5 tall).");
+      return;
+    }
 
     var table = document.getElementById("bilTable");
     var row = table.insertRow(-1);
