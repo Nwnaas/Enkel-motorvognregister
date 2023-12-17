@@ -91,6 +91,10 @@
 
 <h2>Motorvognregister</h2>
 
+<label for="search">Søk etter navn eller bil:</label>
+<input type="text" id="search" name="search" oninput="searchTable()" placeholder="Søk etter navn eller bil">
+<br><br>
+
 <table id="bilTable" >
   <tr>
     <th>PersonNr</th>
@@ -104,6 +108,32 @@
 </table>
 
 <script>
+  function searchTable() {
+    var input, filter, table, tr, td, i, txtValue;
+    input = document.getElementById("search");
+    filter = input.value.toUpperCase();
+    table = document.getElementById("bilTable");
+    tr = table.getElementsByTagName("tr");
+
+    for (i = 1; i < tr.length; i++) { // Start i=1 for å unngå å søke i overskriftsraden
+      var found = false; // Legg til denne variabelen for å sjekke om søkeordet er funnet i raden
+      for (var j = 1; j < tr[i].cells.length; j++) { // Start j=1 for å unngå å søke i første celle
+        td = tr[i].getElementsByTagName("td")[j];
+        if (td) {
+          txtValue = td.textContent || td.innerText;
+          if (txtValue.toUpperCase().indexOf(filter) > -1) {
+            found = true;
+            break; // Avbryt løkken hvis vi har funnet en match i denne raden
+          }
+        }
+      }
+      if (found) {
+        tr[i].style.display = "";
+      } else {
+        tr[i].style.display = "none";
+      }
+    }
+  }
   function validateBilSkilt(bilSkilt) {
     // Mønster for å validere bilskilt på formen 2 bokstaver + 5 tall
     var pattern = /^[A-Za-z]{2}\d{5}$/;
@@ -302,8 +332,8 @@
     return `${randomDay}${randomMonth}${randomYear}${randomNumbers}`;
   }
 
-  const fornavn = ['Erik', 'Ingrid', 'Marius', 'Silje', 'Andreas', 'Lene', 'Jon', 'Helene', 'Ole', 'Marte'];
-  const etternavn = ['Hansen', 'Olsen', 'Pedersen', 'Johansen', 'Andersen', 'Nilsen', 'Solberg', 'Larsen', 'Sørensen', 'Kristiansen'];
+  const fornavn = ['Erik', 'Ingrid', 'Marius', 'Silje', 'Andreas', 'Lene', 'Jon', 'Helene', 'Ole', 'Marte', 'Per', 'Kari', 'Oskar', 'Ida', 'Jørgen', 'Kristine', 'Thomas', 'Sofie', 'Geir', 'Anita', 'Anders', 'Maria', 'Petter', 'Eva', 'Fredrik', 'Camilla', 'Øystein', 'Inger', 'Sindre', 'Cecilie', 'Espen', 'Hanne', 'Gunnar', 'Hilde', 'Gustav', 'Anna', 'Henrik', 'Kristin', 'Trond', 'Pernille', 'Lars', 'Hildegunn', 'Stian', 'Lise', 'Oskar', 'Monica', 'Kristoffer', 'Bente', 'Ola', 'Nina', 'Sigurd', 'Charlotte', 'Martin', 'Mari', 'André', 'Elisabeth', 'Håkon', 'Tone', 'Even', 'Margrethe', 'Einar', 'Ane', 'Erling', 'Elin', 'Knut', 'Vilde', 'Simen', 'Hege', 'Joakim', 'Marit', 'Magnus', 'Anne', 'Johan', 'Julie', 'Nils', 'Sara', 'Lars-Erik', 'Camilla', 'Arne', 'Marianne', 'Olav', 'Iselin', 'Stig', 'Astrid', 'Roar', 'Frida', 'Pål', 'Siri', 'Terje', 'Jeanette', 'Bjørn', 'Hannah', 'Jan', 'Vivian', 'Olaug', 'Alexander', 'Caroline', 'Leif', 'Elise', 'Kjell'];
+  const etternavn = ['Hansen', 'Olsen', 'Pedersen', 'Johansen', 'Andersen', 'Nilsen', 'Solberg', 'Larsen', 'Sørensen', 'Kristiansen', 'Eriksen', 'Ødegaard', 'Halvorsen', 'Svendsen', 'Martinsen', 'Johnsen', 'Christensen', 'Jacobsen', 'Andreassen', 'Lund', 'Thomsen', 'Bakke', 'Sande', 'Moe', 'Strand', 'Haugen', 'Berg', 'Myhre', 'Simonsen', 'Gundersen', 'Holm', 'Rasmussen', 'Tangen', 'Knutsen', 'Ruud', 'Kvamme', 'Foss', 'Haugland', 'Berntsen', 'Hovland', 'Nilsson', 'Lunde', 'Hagen', 'Hovde', 'Viken', 'Sandvik', 'Aas', 'Åsheim', 'Bjerke', 'Engebretsen', 'Fjeld', 'Skoglund', 'Torp', 'Øyen', 'Borge', 'Vestby', 'Holmen', 'Tveit', 'Jansen', 'Aune', 'Lien', 'Åsen', 'Rønning', 'Wold', 'Dahl', 'Brekke', 'Sletteng', 'Evensen', 'Tobiassen', 'Sand', 'Lind', 'Bakken', 'Sæther', 'Torgersen', 'Helle', 'Rønningen', 'Moen', 'Tveito', 'Øverby', 'Jenssen', 'Stensrud', 'Eide', 'Solheim', 'Isaksen', 'Vatne', 'Gulbrandsen', 'Fossen', 'Tollefsen', 'Haug', 'Strøm', 'Rønstad', 'Vangen', 'Gundersrud', 'Storli', 'Aasen', 'Stene', 'Husby', 'Aamodt', 'Aasgaard', 'Torkildsen'];
   function generateRandomName() {
     const randomFornavn = fornavn[Math.floor(Math.random() * fornavn.length)];
     const randomEtternavn = etternavn[Math.floor(Math.random() * etternavn.length)];
@@ -311,9 +341,9 @@
     return `${randomFornavn} ${randomEtternavn}`;
   }
 
-  const gateadresser = ['Hovedgata', 'Bakkeveien', 'Skogveien', 'Fjellgata', 'Sjøgata', 'Lundveien', 'Skogstien', 'Havnegata', 'Fjordveien', 'Bakkegrenda'];
-  const postnumre = ['0123', '4567', '8901', '2345', '6789', '1357', '2468', '3579', '4680', '5791'];
-  const byer = ['OSLO', 'BERGEN', 'TRONDHEIM', 'STAVANGER', 'TROMSØ', 'KRISTIANSAND', 'DRAMMEN', 'ÅLESUND', 'MOLDE', 'BODØ'];
+  const gateadresser = ['Hovedgata', 'Bakkeveien', 'Skogveien', 'Fjellgata', 'Sjøgata', 'Lundveien', 'Skogstien', 'Havnegata', 'Fjordveien', 'Bakkegrenda', 'Strandgata', 'Lærerstien', 'Solgata', 'Høiveien', 'Prestegrenda', 'Fjellstien', 'Skoleveien', 'Havnestykket', 'Fjordgrenda', 'Blomsterstien', 'Fiskergata', 'Idrettsveien', 'Solskrenten', 'Høystien', 'Presteveien', 'Storgata', 'Skogsstien', 'Havneveien', 'Fjellryggen', 'Bakkelien', 'Strandveien', 'Lærdalsgrenda', 'Solbakken', 'Høyskrenten', 'Presteskrenten', 'Stien', 'Skogslia', 'Havnebukt', 'Fjordryggen', 'Bakkelien', 'Strandstien', 'Lundegrenda', 'Solkroken', 'Høygrenda', 'Prestekroken', 'Vestgata', 'Skogskanten', 'Havnesvingen', 'Fjordgata', 'Bakkerud', 'Strandgrenda', 'Lærergata', 'Soleveien', 'Høyryggen', 'Prestelien', 'Østgata', 'Skogkroken', 'Havnebyen', 'Fjellskrenten', 'Bakkelia', 'Strandryggen', 'Lundegata', 'Solstien', 'Høybukt', 'Presteskogen', 'Nordgata', 'Skogryggen', 'Havnekroken', 'Fjordstien', 'Bakkely', 'Strandsvingen', 'Lundekroken', 'Solbakkestien', 'Høyveien', 'Presteveien', 'Sørgata', 'Skogkanten', 'Havnelia', 'Fjellbakken', 'Bakkelien', 'Strandbakken', 'Lærerstien', 'Solskrenten', 'Høystien', 'Presteveien', 'Storgata', 'Skogsstien', 'Havneveien', 'Fjellryggen', 'Bakkelien', 'Strandveien', 'Lærdalsgrenda', 'Solbakken', 'Høyskrenten', 'Presteskrenten', 'Stien', 'Skogslia', 'Havnebukt', 'Fjordryggen', 'Bakkelien', 'Strandstien', 'Lundegrenda', 'Solkroken', 'Høygrenda', 'Prestekroken', 'Vestgata', 'Skogskanten', 'Havnesvingen', 'Fjordgata', 'Bakkerud', 'Strandgrenda', 'Lærergata', 'Soleveien', 'Høyryggen', 'Prestelien', 'Østgata', 'Skogkroken', 'Havnebyen', 'Fjellskrenten', 'Bakkelia', 'Strandryggen', 'Lundegata', 'Solstien', 'Høybukt', 'Presteskogen', 'Nordgata', 'Skogryggen', 'Havnekroken', 'Fjordstien', 'Bakkely'];
+  const postnumre = ['0123', '4567', '8901', '2345', '6789', '1357', '2468', '3579', '4680', '5791', '1234', '5678', '9012', '3456', '7890', '3571', '8642', '9753', '0864', '1928', '4321', '8765', '1098', '5432', '9876', '7513', '8246', '9375', '0468', '1927', '3412', '7654', '1987', '6543', '2109', '9870', '5435', '7531', '6428', '3579', '0864', '9271', '1234', '5678', '9012', '3456', '7890', '3571', '8642', '9753', '0864', '1928', '4321', '8765', '1098', '5432', '9876', '7513', '8246', '9375', '0468', '1927', '3412', '7654', '1987', '6543', '2109', '9870', '5435', '7531', '6428', '3579', '0864', '9271', '1234', '5678', '9012', '3456', '7890', '3571', '8642', '9753', '0864', '1928', '4321', '8765', '1098', '5432', '9876', '7513', '8246', '9375', '0468', '1927', '3412', '7654'];
+  const byer = ['OSLO', 'BERGEN', 'TRONDHEIM', 'STAVANGER', 'TROMSØ', 'KRISTIANSAND', 'DRAMMEN', 'ÅLESUND', 'MOLDE', 'BODØ', 'SANDNES', 'HAUGESUND', 'SKIEN', 'NARVIK', 'KRISTIANSUND', 'ARENDAL', 'HAMAR', 'SARPSBORG', 'ALTA', 'ASKIM', 'SKIPTVET', 'SVELVIK', 'GJØVIK', 'BRYNE', 'KONGSVINGER', 'RÅHOLT', 'HØNEFOSS', 'MOSS', 'MYSSEN', 'SORTLAND', 'PORSGRUNN', 'NAMSOS', 'LILLEHAMMER', 'TØNSBERG', 'LARVIK', 'SANDEFJORD', 'KRAGERØ', 'FØRDE', 'AREMARK', 'LYNGDAL', 'FLORØ', 'STORD', 'OTTA', 'NÆRBØ', 'RAUFOSS', 'ØRSTA', 'KRØDEREN', 'RAUMA', 'STJØRDAL', 'VERDAL', 'FREDRIKSTAD', 'HARSTAD', 'VOLDÅSEN', 'NORDFJORDEID', 'HAMMERFEST', 'KIRKENES', 'ÅLGÅRD', 'RØYKEN', 'GRIMSTAD', 'SANDNESSJØEN', 'MÅLØY', 'KARASJOK', 'NAMSSKOGAN', 'KOPPANG', 'SELJORD', 'ÅRØYBUKTA', 'BREMANGER', 'KVAM', 'BØ I TELEMARK', 'EIDSVOLL', 'MELHUS', 'STANGE', 'SØRUMSAND', 'HOLMESTRAND', 'MOSJØEN', 'VADSØ', 'LILLESAND', 'LØRENSKOG', 'FLÅM', 'RØROS', 'KVINESDAL', 'VEGA', 'MALVIK', 'RØST', 'FOLLDAL', 'RISØR', 'VANG I VALDRES', 'ÅMOT', 'VESTVÅGØY', 'VESTBY'];
   function generateRandomAddress() {
     const randomGateadresse = gateadresser[Math.floor(Math.random() * gateadresser.length)];
     const randomPostnummer = postnumre[Math.floor(Math.random() * postnumre.length)];
