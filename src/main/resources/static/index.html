@@ -163,12 +163,16 @@
               // Legg til gateadresser i datalisten
               data.adresser.forEach(adresse => {
                 var option = document.createElement("option");
-                option.value = adresse.adressetekst;
+
+                // Legg til postnummer og by i adresseteksten
+                option.value = `${adresse.adressetekst}, ${adresse.postnummer} ${adresse.poststed}`;
+
                 datalistElement.appendChild(option);
               });
             })
             .catch(error => console.error("Feil ved henting av gateadresser:", error));
   });
+
 
   document.getElementById('bilMerke').addEventListener('input', function() {
     var brand = this.value.toLowerCase();
