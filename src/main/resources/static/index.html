@@ -86,6 +86,7 @@
   <datalist id="bilModelList"></datalist>
 
   <button type="button" onclick="addProdukt()">Registrer</button>
+  <button type="button" onclick="fillFormAutomatically()">Fyll ut automatisk</button>
 </form>
 
 <h2>Motorvognregister</h2>
@@ -200,177 +201,211 @@
   });
 
 
-  document.getElementById('bilMerke').addEventListener('input', function() {
-    var brand = this.value.toLowerCase();
-    var models = document.getElementById('bilModelList');
+  document.getElementById('bilMerke').addEventListener('input', function () {
+    const brand = this.value.toLowerCase().replace(/\s/g, '_').replace("-", "_");
+    const models = document.getElementById('bilModelList');
     models.innerHTML = '';
 
-    switch (brand) {
-      case 'toyota':
-        addModels(['Camry', 'Corolla', 'Rav4', 'Highlander', 'Prius', 'Sienna', 'Tacoma', 'Tundra', '4Runner', 'Land Cruiser']);
-        break;
-      case 'volkswagen':
-        addModels(['Golf', 'Passat', 'Tiguan', 'Atlas', 'Jetta', 'Arteon', 'ID.4', 'Touareg', 'Atlas Cross Sport', 'Taos']);
-        break;
-      case 'ford':
-        addModels(['F-150', 'Focus', 'Escape', 'Explorer', 'Mustang', 'Edge', 'Ranger', 'Fusion', 'Expedition', 'Bronco']);
-        break;
-      case 'chevrolet':
-        addModels(['Silverado', 'Equinox', 'Malibu', 'Camaro', 'Tahoe', 'Traverse', 'Colorado', 'Blazer', 'Suburban', 'Trailblazer']);
-        break;
-      case 'nissan':
-        addModels(['Rogue', 'Altima', 'Sentra', 'Murano', 'Pathfinder', 'Titan', 'Maxima', 'Armada', 'Versa', 'Kicks']);
-        break;
-      case 'honda':
-        addModels(['Civic', 'Accord', 'CR-V', 'Pilot', 'Odyssey', 'Fit', 'HR-V', 'Ridgeline', 'Insight', 'Passport']);
-        break;
-      case 'mercedes-benz':
-        addModels(['C-Class', 'E-Class', 'S-Class', 'GLC', 'GLE', 'A-Class', 'CLA', 'GLA', 'G-Class', 'GLS']);
-        break;
-      case 'bmw':
-        addModels(['3 Series', '5 Series', '7 Series', 'X3', 'X5', 'X1', '4 Series', 'X7', '2 Series', '8 Series']);
-        break;
-      case 'audi':
-        addModels(['A4', 'A6', 'Q5', 'Q7', 'Q3', 'A3', 'A8', 'Q8', 'e-tron', 'RS6 Avant']);
-        break;
-      case 'hyundai':
-        addModels(['Elantra', 'Tucson', 'Santa Fe', 'Kona', 'Palisade', 'Sonata', 'Venue', 'Ioniq', 'Veloster', 'Genesis']);
-        break;
-      case 'tesla':
-        addModels(['Model 3', 'Model S', 'Model X', 'Model Y', 'Cybertruck', 'Roadster']);
-        break;
-      case 'volvo':
-        addModels(['XC90', 'XC60', 'S60', 'S90', 'V60', 'V90', 'XC40', 'C40', 'Polestar 2']);
-        break;
-      case 'kia':
-        addModels(['Seltos', 'Sportage', 'Telluride', 'Sorento', 'Forte', 'Soul', 'Niro', 'Cadenza', 'Stinger', 'Rio']);
-        break;
-      case 'subaru':
-        addModels(['Outback', 'Forester', 'Crosstrek', 'Ascent', 'Impreza', 'Legacy', 'BRZ']);
-        break;
-      case 'mazda':
-        addModels(['CX-5', 'Mazda3', 'CX-9', 'Mazda6', 'MX-5 Miata', 'CX-30']);
-        break;
-      case 'lexus':
-        addModels(['RX', 'NX', 'ES', 'UX', 'GX', 'IS', 'LS', 'LC', 'LX']);
-        break;
-      case 'jeep':
-        addModels(['Grand Cherokee', 'Cherokee', 'Wrangler', 'Compass', 'Renegade', 'Gladiator']);
-        break;
-      case 'ram':
-        addModels(['1500', '2500', '3500', 'ProMaster', 'ProMaster City']);
-        break;
-      case 'porsche':
-        addModels(['911', 'Cayenne', 'Panamera', 'Macan', 'Taycan']);
-        break;
-      case 'acura':
-        addModels(['MDX', 'RDX', 'TLX', 'ILX']);
-        break;
-      case 'infiniti':
-        addModels(['QX60', 'QX50', 'Q50', 'QX80', 'QX30']);
-        break;
-      case 'land rover':
-        addModels(['Range Rover', 'Discovery', 'Defender', 'Range Rover Sport', 'Range Rover Velar']);
-        break;
-      case 'jaguar':
-        addModels(['F-PACE', 'E-PACE', 'I-PACE', 'XF', 'XJ']);
-        break;
-      case 'fiat':
-        addModels(['500', '500X', '500L']);
-        break;
-      case 'mitsubishi':
-        addModels(['Outlander', 'Eclipse Cross', 'Outlander Sport']);
-        break;
-      case 'buick':
-        addModels(['Encore', 'Enclave', 'Envision']);
-        break;
-      case 'gmc':
-        addModels(['Sierra 1500', 'Yukon', 'Acadia', 'Terrain', 'Canyon']);
-        break;
-      case 'chrysler':
-        addModels(['Pacifica', 'Voyager', '300']);
-        break;
-      case 'dodge':
-        addModels(['Durango', 'Charger', 'Challenger', 'Journey']);
-        break;
-      case 'cadillac':
-        addModels(['XT5', 'Escalade', 'XT4', 'CT5', 'CT4']);
-        break;
-      case 'lincoln':
-        addModels(['Navigator', 'Aviator', 'Corsair', 'Nautilus']);
-        break;
-      case 'mini':
-        addModels(['Cooper', 'Countryman', 'Clubman']);
-        break;
-      case 'alfa romeo':
-        addModels(['Giulia', 'Stelvio']);
-        break;
-      case 'ferrari':
-        addModels(['F8 Tributo', '812 Superfast', 'Roma', 'SF90 Stradale']);
-        break;
-      case 'lamborghini':
-        addModels(['Urus', 'Huracán', 'Aventador']);
-        break;
-      case 'maserati':
-        addModels(['Levante', 'Ghibli', 'Quattroporte']);
-        break;
-      case 'bentley':
-        addModels(['Bentayga', 'Continental GT', 'Flying Spur']);
-        break;
-      case 'rolls-royce':
-        addModels(['Phantom', 'Cullinan', 'Ghost', 'Wraith']);
-        break;
-      case 'aston martin':
-        addModels(['DB11', 'DBS Superleggera', 'Vantage']);
-        break;
-      case 'mclaren':
-        addModels(['720S', '570S', 'GT']);
-        break;
-      case 'bugatti':
-        addModels(['Chiron', 'Divo']);
-        break;
-      case 'lotus':
-        addModels(['Evora', 'Elise', 'Exige']);
-        break;
-      case 'genesis':
-        addModels(['G80', 'G90', 'GV80']);
-        break;
-      case 'rivian':
-        addModels(['R1T', 'R1S']);
-        break;
-      case 'lucid':
-        addModels(['Air']);
-        break;
-      case 'polestar':
-        addModels(['Polestar 2']);
-        break;
-      case 'jaguar':
-        addModels(['F-PACE', 'E-PACE', 'I-PACE', 'XF', 'XJ']);
-        break;
-      case 'koenigsegg':
-        addModels(['Jesko', 'Gemera', 'Regera']);
-        break;
-      case 'pagani':
-        addModels(['Huayra', 'Huayra Roadster', 'Huayra BC']);
-        break;
-      case 'fisker':
-        addModels(['Ocean']);
-        break;
-      case 'byton':
-        addModels(['M-Byte']);
-        break;
-      default:
-        break;
-    }
+    const carModels = {
+      toyota: ['Camry', 'Corolla', 'Rav4', 'Highlander', 'Prius', 'Sienna', 'Tacoma', 'Tundra', '4Runner', 'Land Cruiser', 'Supra', 'Yaris'],
+      volkswagen: ['Golf', 'Passat', 'Tiguan', 'Atlas', 'Jetta', 'Arteon', 'ID.4', 'Touareg', 'Atlas Cross Sport', 'Taos', 'Beetle', 'CC'],
+      ford: ['F-150', 'Focus', 'Escape', 'Explorer', 'Mustang', 'Edge', 'Ranger', 'Fusion', 'Expedition', 'Bronco', 'Mach-E', 'Transit'],
+      chevrolet: ['Silverado', 'Equinox', 'Malibu', 'Camaro', 'Tahoe', 'Traverse', 'Colorado', 'Blazer', 'Suburban', 'Trailblazer', 'Spark', 'Impala'],
+      nissan: ['Rogue', 'Altima', 'Sentra', 'Murano', 'Pathfinder', 'Titan', 'Maxima', 'Armada', 'Versa', 'Kicks', '370Z', 'Leaf'],
+      honda: ['Civic', 'Accord', 'CR-V', 'Pilot', 'Odyssey', 'Fit', 'HR-V', 'Ridgeline', 'Insight', 'Passport', 'S2000'],
+      mercedes_benz: ['C-Class', 'E-Class', 'S-Class', 'GLC', 'GLE', 'A-Class', 'CLA', 'GLA', 'G-Class', 'GLS', 'SLC', 'SL'],
+      bmw: ['3 Series', '5 Series', '7 Series', 'X3', 'X5', 'X1', '4 Series', 'X7', '2 Series', '8 Series', 'Z4', 'i3'],
+      audi: ['A4', 'A6', 'Q5', 'Q7', 'Q3', 'A3', 'A8', 'Q8', 'e-tron', 'RS6 Avant', 'TT', 'R8'],
+      hyundai: ['Elantra', 'Tucson', 'Santa Fe', 'Kona', 'Palisade', 'Sonata', 'Venue', 'Ioniq', 'Veloster', 'Genesis', 'Nexo'],
+      tesla: ['Model 3', 'Model S', 'Model X', 'Model Y', 'Cybertruck', 'Roadster', 'Model X Plaid', 'Model S Plaid'],
+      volvo: ['XC90', 'XC60', 'S60', 'S90', 'V60', 'V90', 'XC40', 'C40', 'Polestar 2', 'V60 Cross Country'],
+      kia: ['Seltos', 'Sportage', 'Telluride', 'Sorento', 'Forte', 'Soul', 'Niro', 'Cadenza', 'Stinger', 'Rio', 'Optima', 'K900'],
+      subaru: ['Outback', 'Forester', 'Crosstrek', 'Ascent', 'Impreza', 'Legacy', 'BRZ', 'WRX', 'XV Crosstrek'],
+      mazda: ['CX-5', 'Mazda3', 'CX-9', 'Mazda6', 'MX-5 Miata', 'CX-30', 'RX-7', 'RX-8', 'Mazdaspeed3'],
+      lexus: ['RX', 'NX', 'ES', 'UX', 'GX', 'IS', 'LS', 'LC', 'LX', 'RC', 'CT', 'LFA'],
+      jeep: ['Grand Cherokee', 'Cherokee', 'Wrangler', 'Compass', 'Renegade', 'Gladiator', 'Wagoneer', 'Grand Wagoneer'],
+      ram: ['1500', '2500', '3500', 'ProMaster', 'ProMaster City', 'Rebel TRX'],
+      porsche: ['911', 'Cayenne', 'Panamera', 'Macan', 'Taycan', 'Boxster', 'Cayman', '718 Spyder', '911 GT3'],
+      acura: ['MDX', 'RDX', 'TLX', 'ILX', 'NSX', 'RLX'],
+      infiniti: ['QX60', 'QX50', 'Q50', 'QX80', 'QX30', 'Q60', 'QX70'],
+      land_rover: ['Range Rover', 'Discovery', 'Defender', 'Range Rover Sport', 'Range Rover Velar', 'Evoque'],
+      jaguar: ['F-PACE', 'E-PACE', 'I-PACE', 'XF', 'XJ', 'XE'],
+      fiat: ['500', '500X', '500L', '124 Spider'],
+      mitsubishi: ['Outlander', 'Eclipse Cross', 'Outlander Sport', 'Mirage', 'Lancer'],
+      buick: ['Encore', 'Enclave', 'Envision', 'Regal', 'Cascada'],
+      gmc: ['Sierra 1500', 'Yukon', 'Acadia', 'Terrain', 'Canyon', 'Denali'],
+      chrysler: ['Pacifica', 'Voyager', '300', 'Aspen'],
+      dodge: ['Durango', 'Charger', 'Challenger', 'Journey', 'Viper'],
+      cadillac: ['XT5', 'Escalade', 'XT4', 'CT5', 'CT4', 'ATS', 'XT6'],
+      lincoln: ['Navigator', 'Aviator', 'Corsair', 'Nautilus', 'Continental', 'MKZ'],
+      mini: ['Cooper', 'Countryman', 'Clubman', 'Paceman'],
+      alfa_romeo: ['Giulia', 'Stelvio', '4C'],
+      ferrari: ['F8 Tributo', '812 Superfast', 'Roma', 'SF90 Stradale', 'Portofino'],
+      lamborghini: ['Urus', 'Huracán', 'Aventador', 'Sián FKP 37', 'Essenza SCV12'],
+      maserati: ['Levante', 'Ghibli', 'Quattroporte', 'GranTurismo', 'MC20'],
+      bentley: ['Bentayga', 'Continental GT', 'Flying Spur', 'Mulsanne', 'Bacalar'],
+      rolls_royce : ['Phantom', 'Cullinan', 'Ghost', 'Wraith', 'Dawn'],
+      aston_martin : ['DB11', 'DBS Superleggera', 'Vantage', 'Rapide', 'Valhalla'],
+      mclaren: ['720S', '570S', 'GT', 'Speedtail', 'Artura'],
+      bugatti: ['Chiron', 'Divo', 'Centodieci', 'La Voiture Noire'],
+      lotus: ['Evora', 'Elise', 'Exige', 'Elan', 'Esprit'],
+      genesis: ['G80', 'G90', 'GV80', 'GV70'],
+      rivian: ['R1T', 'R1S'],
+      lucid: ['Air', 'Air Touring', 'Air Grand Touring', 'Air Dream Edition'],
+      polestar: ['Polestar 2'],
+      koenigsegg: ['Jesko', 'Gemera', 'Regera', 'Ragnarok'],
+      pagani: ['Huayra', 'Huayra Roadster', 'Huayra BC', 'Huayra Roadster BC'],
+      fisker: ['Ocean', 'Emotion'],
+      byton: ['M-Byte'],
+    };
 
-    function addModels(modelArray) {
-      modelArray.forEach(function(model) {
-        var option = document.createElement('option');
+    if (carModels[brand]) {
+      carModels[brand].forEach(function (model) {
+        const option = document.createElement('option');
         option.value = model;
         models.appendChild(option);
       });
     }
   });
+
+
+  function fillFormAutomatically() {
+    for (let i = 0; i < 20; i++) {
+      // Generer tilfeldige verdier for hvert felt
+      const personNr = generateRandomPersonNr();
+      const navn = generateRandomName();
+      const adresse = generateRandomAddress();
+      const bilSkilt = generateRandomCarPlate();
+      const bilMerke = generateRandomCarBrand();
+      const bilModel = generateRandomCarModel(bilMerke);
+
+      // Fyll ut skjemaet med de genererte verdiene
+      document.getElementById("personNr").value = personNr;
+      document.getElementById("navn").value = navn;
+      document.getElementById("adresse").value = adresse;
+      document.getElementById("bilSkilt").value = bilSkilt;
+      document.getElementById("bilMerke").value = bilMerke;
+      document.getElementById("bilModel").value = bilModel;
+
+      // Legg til produkt i tabellen
+      addProdukt();
+    }
+  }
+
+  // Funksjon for å generere gyldig personnummer
+  function generateRandomPersonNr() {
+    const currentYear = new Date().getFullYear();
+    const randomYear = String(Math.floor(Math.random() * 100)).padStart(2, '0');
+    const randomMonth = String(Math.floor(Math.random() * 12) + 1).padStart(2, '0'); // Random month (01-12)
+    const randomDay = String(Math.floor(Math.random() * 28) + 1).padStart(2, '0'); // Random day (01-28)
+    const randomNumbers = String(Math.floor(Math.random() * 90000) + 10000); // Ensure 5 digits
+    return `${randomDay}${randomMonth}${randomYear}${randomNumbers}`;
+  }
+
+  const fornavn = ['Erik', 'Ingrid', 'Marius', 'Silje', 'Andreas', 'Lene', 'Jon', 'Helene', 'Ole', 'Marte'];
+  const etternavn = ['Hansen', 'Olsen', 'Pedersen', 'Johansen', 'Andersen', 'Nilsen', 'Solberg', 'Larsen', 'Sørensen', 'Kristiansen'];
+  function generateRandomName() {
+    const randomFornavn = fornavn[Math.floor(Math.random() * fornavn.length)];
+    const randomEtternavn = etternavn[Math.floor(Math.random() * etternavn.length)];
+
+    return `${randomFornavn} ${randomEtternavn}`;
+  }
+
+  const gateadresser = ['Hovedgata', 'Bakkeveien', 'Skogveien', 'Fjellgata', 'Sjøgata', 'Lundveien', 'Skogstien', 'Havnegata', 'Fjordveien', 'Bakkegrenda'];
+  const postnumre = ['0123', '4567', '8901', '2345', '6789', '1357', '2468', '3579', '4680', '5791'];
+  const byer = ['OSLO', 'BERGEN', 'TRONDHEIM', 'STAVANGER', 'TROMSØ', 'KRISTIANSAND', 'DRAMMEN', 'ÅLESUND', 'MOLDE', 'BODØ'];
+  function generateRandomAddress() {
+    const randomGateadresse = gateadresser[Math.floor(Math.random() * gateadresser.length)];
+    const randomPostnummer = postnumre[Math.floor(Math.random() * postnumre.length)];
+    const randomBy = byer[Math.floor(Math.random() * byer.length)];
+
+    return `${randomGateadresse} 123, ${randomPostnummer} ${randomBy}`;
+  }
+
+  function generateRandomCarPlate() {
+    const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    const numbers = '0123456789';
+
+    const randomLetters = Array.from({ length: 2 }, () => letters[Math.floor(Math.random() * letters.length)]).join('');
+    const randomNumbers = Array.from({ length: 5 }, () => numbers[Math.floor(Math.random() * numbers.length)]).join('');
+
+    return `${randomLetters}${randomNumbers}`;
+  }
+
+
+  function generateRandomCarBrand() {
+    // Get the list of car brands
+    var carBrands = document.getElementById("bilMerkeList").options;
+
+    // Get a random index within the range of available car brands
+    var randomIndex = Math.floor(Math.random() * carBrands.length);
+
+    // Return the randomly selected car brand
+    return carBrands[randomIndex].value;
+  }
+  function generateRandomCarModel(bilMerke) {
+    const carModels = {
+      toyota: ['Camry', 'Corolla', 'Rav4', 'Highlander', 'Prius', 'Sienna', 'Tacoma', 'Tundra', '4Runner', 'Land Cruiser', 'Supra', 'Yaris'],
+      volkswagen: ['Golf', 'Passat', 'Tiguan', 'Atlas', 'Jetta', 'Arteon', 'ID.4', 'Touareg', 'Atlas Cross Sport', 'Taos', 'Beetle', 'CC'],
+      ford: ['F-150', 'Focus', 'Escape', 'Explorer', 'Mustang', 'Edge', 'Ranger', 'Fusion', 'Expedition', 'Bronco', 'Mach-E', 'Transit'],
+      chevrolet: ['Silverado', 'Equinox', 'Malibu', 'Camaro', 'Tahoe', 'Traverse', 'Colorado', 'Blazer', 'Suburban', 'Trailblazer', 'Spark', 'Impala'],
+      nissan: ['Rogue', 'Altima', 'Sentra', 'Murano', 'Pathfinder', 'Titan', 'Maxima', 'Armada', 'Versa', 'Kicks', '370Z', 'Leaf'],
+      honda: ['Civic', 'Accord', 'CR-V', 'Pilot', 'Odyssey', 'Fit', 'HR-V', 'Ridgeline', 'Insight', 'Passport', 'S2000'],
+      mercedes_benz: ['C-Class', 'E-Class', 'S-Class', 'GLC', 'GLE', 'A-Class', 'CLA', 'GLA', 'G-Class', 'GLS', 'SLC', 'SL'],
+      bmw: ['3 Series', '5 Series', '7 Series', 'X3', 'X5', 'X1', '4 Series', 'X7', '2 Series', '8 Series', 'Z4', 'i3'],
+      audi: ['A4', 'A6', 'Q5', 'Q7', 'Q3', 'A3', 'A8', 'Q8', 'e-tron', 'RS6 Avant', 'TT', 'R8'],
+      hyundai: ['Elantra', 'Tucson', 'Santa Fe', 'Kona', 'Palisade', 'Sonata', 'Venue', 'Ioniq', 'Veloster', 'Genesis', 'Nexo'],
+      tesla: ['Model 3', 'Model S', 'Model X', 'Model Y', 'Cybertruck', 'Roadster', 'Model X Plaid', 'Model S Plaid'],
+      volvo: ['XC90', 'XC60', 'S60', 'S90', 'V60', 'V90', 'XC40', 'C40', 'Polestar 2', 'V60 Cross Country'],
+      kia: ['Seltos', 'Sportage', 'Telluride', 'Sorento', 'Forte', 'Soul', 'Niro', 'Cadenza', 'Stinger', 'Rio', 'Optima', 'K900'],
+      subaru: ['Outback', 'Forester', 'Crosstrek', 'Ascent', 'Impreza', 'Legacy', 'BRZ', 'WRX', 'XV Crosstrek'],
+      mazda: ['CX-5', 'Mazda3', 'CX-9', 'Mazda6', 'MX-5 Miata', 'CX-30', 'RX-7', 'RX-8', 'Mazdaspeed3'],
+      lexus: ['RX', 'NX', 'ES', 'UX', 'GX', 'IS', 'LS', 'LC', 'LX', 'RC', 'CT', 'LFA'],
+      jeep: ['Grand Cherokee', 'Cherokee', 'Wrangler', 'Compass', 'Renegade', 'Gladiator', 'Wagoneer', 'Grand Wagoneer'],
+      ram: ['1500', '2500', '3500', 'ProMaster', 'ProMaster City', 'Rebel TRX'],
+      porsche: ['911', 'Cayenne', 'Panamera', 'Macan', 'Taycan', 'Boxster', 'Cayman', '718 Spyder', '911 GT3'],
+      acura: ['MDX', 'RDX', 'TLX', 'ILX', 'NSX', 'RLX'],
+      infiniti: ['QX60', 'QX50', 'Q50', 'QX80', 'QX30', 'Q60', 'QX70'],
+      land_rover: ['Range Rover', 'Discovery', 'Defender', 'Range Rover Sport', 'Range Rover Velar', 'Evoque'],
+      jaguar: ['F-PACE', 'E-PACE', 'I-PACE', 'XF', 'XJ', 'XE'],
+      fiat: ['500', '500X', '500L', '124 Spider'],
+      mitsubishi: ['Outlander', 'Eclipse Cross', 'Outlander Sport', 'Mirage', 'Lancer'],
+      buick: ['Encore', 'Enclave', 'Envision', 'Regal', 'Cascada'],
+      gmc: ['Sierra 1500', 'Yukon', 'Acadia', 'Terrain', 'Canyon', 'Denali'],
+      chrysler: ['Pacifica', 'Voyager', '300', 'Aspen'],
+      dodge: ['Durango', 'Charger', 'Challenger', 'Journey', 'Viper'],
+      cadillac: ['XT5', 'Escalade', 'XT4', 'CT5', 'CT4', 'ATS', 'XT6'],
+      lincoln: ['Navigator', 'Aviator', 'Corsair', 'Nautilus', 'Continental', 'MKZ'],
+      mini: ['Cooper', 'Countryman', 'Clubman', 'Paceman'],
+      alfa_romeo: ['Giulia', 'Stelvio', '4C'],
+      ferrari: ['F8 Tributo', '812 Superfast', 'Roma', 'SF90 Stradale', 'Portofino'],
+      lamborghini: ['Urus', 'Huracán', 'Aventador', 'Sián FKP 37', 'Essenza SCV12'],
+      maserati: ['Levante', 'Ghibli', 'Quattroporte', 'GranTurismo', 'MC20'],
+      bentley: ['Bentayga', 'Continental GT', 'Flying Spur', 'Mulsanne', 'Bacalar'],
+      rolls_royce : ['Phantom', 'Cullinan', 'Ghost', 'Wraith', 'Dawn'],
+      aston_martin : ['DB11', 'DBS Superleggera', 'Vantage', 'Rapide', 'Valhalla'],
+      mclaren: ['720S', '570S', 'GT', 'Speedtail', 'Artura'],
+      bugatti: ['Chiron', 'Divo', 'Centodieci', 'La Voiture Noire'],
+      lotus: ['Evora', 'Elise', 'Exige', 'Elan', 'Esprit'],
+      genesis: ['G80', 'G90', 'GV80', 'GV70'],
+      rivian: ['R1T', 'R1S'],
+      lucid: ['Air', 'Air Touring', 'Air Grand Touring', 'Air Dream Edition'],
+      polestar: ['Polestar 2'],
+      koenigsegg: ['Jesko', 'Gemera', 'Regera', 'Ragnarok'],
+      pagani: ['Huayra', 'Huayra Roadster', 'Huayra BC', 'Huayra Roadster BC'],
+      fisker: ['Ocean', 'Emotion'],
+      byton: ['M-Byte'],
+    };
+
+    // If the selected brand exists in the carModels object, return a random model from that brand
+    if (carModels[bilMerke.toLowerCase().replace(/\s/g, '_').replace("-", "_")]) {
+      const randomIndex = Math.floor(Math.random() * carModels[bilMerke.toLowerCase().replace(/\s/g, '_').replace("-", "_")].length);
+      return carModels[bilMerke.toLowerCase().replace(/\s/g, '_').replace("-", "_")][randomIndex];
+    }
+
+    // If the selected brand is not found or not provided, return an empty string or handle it as needed
+    return '';
+  }
 </script>
 </body>
 </html>
