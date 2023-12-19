@@ -2,9 +2,6 @@
 
 Dette er en mottorvognregister som registrerer perosonnummer, navn, adresse, bilskilt, bilmerke og bilmodel. Målet med dette prosjektet er å utfordre kompetangsen min innen html, javascript og java. 
 
-##### Innholdsfortegnelse  
-[Kartverket´s API](#headers)  
-
 ## Kartverket´s API
 
 Undeveis i programeringen kom jeg på noen ting jeg kunne gjøre får å få motorognregisteret til å være enklere for brukerne å bruke. så først imlimenterte jeg Kartverket sin API som gjør at jeg har tilgang til alle adresser postnummer og byer i norge, dette vil si at når du begynner å fylleut adresse så kommer det opp vis det ffinnes en adresse i norge som heter det samme og vis du da trykker på den så vil den fylle det ut med postnummer og by etter. 
@@ -17,7 +14,11 @@ Den neste tingen som jeg la til sånn at det skulle være enklere for brukeren v
 
 Jeg leste meg litt opp på hvordan strukturen på personn nummer er bygget opp på og fant ut at det var en ganske mange ting man måtte passe på f.eks, individ nummer, Kjønn og Kontrollsiffer.
 
+### Individ nummeret
+
 Individ nummeret er de 3 første tallene i personummeret disse forteller oss hvilket periode man er født i. vis man er født mellom 1854-1899 har man mellom 500-749 som indivd nummer, folk som er født mellom 1900-1999 har 000-499. personer som er født mellom 2000-2035 kan ha mellom 500-899. MEN alle født mellom 1940-2035 kan ha ett tall mellom 900-999, men da er det vanskelig å skille forskjell på hvilken periode de er født i. Det siste sifferet i personnummeret sier også hvilken kjønn man er født som, vis man er født dom gutt vil dette tallet være et oddetall og vis man er født som jente vill dette være ett partall.
+
+### fødselsnummeret
 
 I fødselsnummeret har vi også kontrollsiffer, dette er en sjekksum begregnet ut ifra de andre tallene i fødelsesnummeret, dette er det mulig å regne ut men er et kanske komlpisert regnestykke.
 
