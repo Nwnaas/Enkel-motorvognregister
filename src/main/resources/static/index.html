@@ -12,20 +12,20 @@
 <form id="bilForm">
 
   <label for="personNr">Eiers personnummer:</label>
-  <input type="text" id="personNr" name="personNr" maxlength="11"></br></br>
+  <input type="text" id="personNr" name="personNr" maxlength="11" required><br><br>
 
   <label for="navn">Eiers navn:</label>
-  <input type="text" id="navn" name="navn" required></br></br>
+  <input type="text" id="navn" name="navn" required><br><br>
 
   <label for="adresse">Eiers adresse:</label>
-  <input type="text" list="gateadresseListe" id="adresse" name="adresse"></br></br>
+  <input type="text" list="gateadresseListe" id="adresse" name="adresse" required><br><br>
   <datalist id="gateadresseListe"></datalist>
 
   <label for="bilSkilt">Bilskilt:</label>
-  <input type="text" id="bilSkilt" name="bilSkilt" minlength="7" maxlength="7" required></br></br>
+  <input type="text" id="bilSkilt" name="bilSkilt" minlength="7" maxlength="7" required><br><br>
 
   <label for="bilMerke">Bilmerke:</label>
-  <input type="text" list="bilMerkeList" id="bilMerke" name="bilMerke"  required></br></br>
+  <input type="text" list="bilMerkeList" id="bilMerke" name="bilMerke"  required><br><br>
 
   <datalist id="bilMerkeList">
     <option value="Toyota"></option>
@@ -82,7 +82,7 @@
   </datalist>
 
   <label for="bilModel">Bilmodel:</label>
-  <input type="text" list="bilModelList" id="bilModel" name="bilModel"  required></br></br>
+  <input type="text" list="bilModelList" id="bilModel" name="bilModel"  required><br><br>
   <datalist id="bilModelList"></datalist>
 
   <button type="button" onclick="addProdukt()">Registrer</button>
@@ -98,6 +98,7 @@
 <table id="bilTable" >
   <tr>
     <th>PersonNr</th>
+    <th>Kjonn</th>
     <th>Navn</th>
     <th>Adresse</th>
     <th>Bilskilt</th>
@@ -108,16 +109,20 @@
 </table>
 
 <script>
+  function getKjonnFromPersonNr(personNr) {
+    const thirdLastDigit = parseInt(personNr.charAt(8), 10);
+    return thirdLastDigit % 2 === 0 ? 'Jente' : 'Gutt';
+  }
   function searchTable() {
-    var input, filter, table, tr, td, i, txtValue;
+    let input, filter, table, tr, td, i, txtValue;
     input = document.getElementById("search");
     filter = input.value.toUpperCase();
     table = document.getElementById("bilTable");
     tr = table.getElementsByTagName("tr");
 
     for (i = 1; i < tr.length; i++) { // Start i=1 for å unngå å søke i overskriftsraden
-      var found = false; // Legg til denne variabelen for å sjekke om søkeordet er funnet i raden
-      for (var j = 1; j < tr[i].cells.length; j++) { // Start j=1 for å unngå å søke i første celle
+      let found = false; // Legg til denne variabelen for å sjekke om søkeordet er funnet i raden
+      for (let j = 1; j < tr[i].cells.length; j++) { // Start j=1 for å unngå å søke i første celle
         td = tr[i].getElementsByTagName("td")[j];
         if (td) {
           txtValue = td.textContent || td.innerText;
@@ -136,36 +141,67 @@
   }
   function validateBilSkilt(bilSkilt) {
     // Mønster for å validere bilskilt på formen 2 bokstaver + 5 tall
-    var pattern = /^[A-Za-z]{2}\d{5}$/;
+    const pattern = /^[A-Za-z]{2}\d{5}$/;
     return pattern.test(bilSkilt);
   }
   function validatePersonNr(personNr) {
-    // Sjekk om personNr har 11 siffer
-    if (!/^\d{11}$/.test(personNr)) {
+    // Sjekk at personnummeret er 11 tegn
+    if (personNr.length !== 11) {
       return false;
     }
 
-    // Sjekk om de to første tallene er mellom 01 og 31
-    var dayPart = parseInt(personNr.substr(0, 2), 10);
-    if (!(dayPart >= 1 && dayPart <= 31)) {
+    // Hent ut individnummeret (de siste fem sifrene)
+    const individualNumber = personNr.substring(6, 11);
+
+    // Sjekk om individnummeret er gyldig (mellom 00001 og 99999)
+    const individualNumberInt = parseInt(individualNumber, 10);
+    if (isNaN(individualNumberInt) || individualNumberInt < 1 || individualNumberInt > 99999) {
       return false;
     }
 
-    // Sjekk om de to neste tallene er mellom 01 og 12
-    var monthPart = parseInt(personNr.substr(2, 2), 10);
-    if (!(monthPart >= 1 && monthPart <= 12)) {
+    // Sjekk om datoformatet er gyldig
+    const day = parseInt(personNr.substring(0, 2), 10);
+    const month = parseInt(personNr.substring(2, 4), 10);
+    let year = parseInt(personNr.substring(4, 6), 10);
+
+    // Legg til 1900 hvis årstallet er mindre enn 30 (for eksempel 20 blir til 2020)
+    year += year < 30 ? 2000 : (year < 100 ? 1900 : (year >= 100 && year < 130 ? 1800 : 0));
+
+    // Sjekk om fødselsdatoen er gyldig
+    if (
+            isNaN(day) || isNaN(month) || isNaN(year) ||
+            day < 1 || day > 31 ||
+            month < 1 || month > 12 ||
+            (year < 0 || (year >= 30 && year <= 99))
+    ) {
       return false;
     }
 
-    return true;
+    // Sjekk kontrollsifrene
+    const k1 = parseInt(personNr.charAt(9), 10);
+    const k2 = parseInt(personNr.charAt(10), 10);
+
+    const weights = [3, 7, 6, 1, 8, 9, 4, 5, 2];
+
+    const checksum = weights.reduce((sum, weight, index) => {
+      return sum + weight * parseInt(personNr.charAt(index), 10);
+    }, 0);
+
+    const remainder = checksum % 11;
+    const expectedCheckDigit = remainder === 0 ? 0 : 11 - remainder;
+
+    return k1 === expectedCheckDigit && k2 === (k1 === 10 ? 0 : k2 === 10 ? 0 : k2);
   }
+
   function addProdukt() {
-    var personNr = document.getElementById("personNr").value;
-    var navn = document.getElementById("navn").value;
-    var adresse = document.getElementById("adresse").value;
-    var bilSkilt = document.getElementById("bilSkilt").value;
-    var bilMerke = document.getElementById("bilMerke").value;
-    var bilModel = document.getElementById("bilModel").value;
+    const personNr = document.getElementById("personNr").value;
+    const navn = document.getElementById("navn").value;
+    const adresse = document.getElementById("adresse").value;
+    const bilSkilt = document.getElementById("bilSkilt").value;
+    const bilMerke = document.getElementById("bilMerke").value;
+    const bilModel = document.getElementById("bilModel").value;
+    const kjonn = getKjonnFromPersonNr(personNr);
+
 
     if (!validatePersonNr(personNr)) {
       alert("Vennligst skriv inn et gyldig personnummer.");
@@ -177,22 +213,24 @@
       return;
     }
 
-    var table = document.getElementById("bilTable");
-    var row = table.insertRow(-1);
-    var cell1 = row.insertCell(0);
-    var cell2 = row.insertCell(1);
-    var cell3 = row.insertCell(2);
-    var cell4 = row.insertCell(3);
-    var cell5 = row.insertCell(4);
-    var cell6 = row.insertCell(5);
-    var cell7 = row.insertCell(6);
+    const table = document.getElementById("bilTable");
+    const row = table.insertRow(-1);
+    const cell1 = row.insertCell(0);
+    const cell2 = row.insertCell(1);
+    const cell3 = row.insertCell(2);
+    const cell4 = row.insertCell(3);
+    const cell5 = row.insertCell(4);
+    const cell6 = row.insertCell(5);
+    const cell7 = row.insertCell(6);
+    const cell8 = row.insertCell(7);
     cell1.innerHTML = personNr;
-    cell2.innerHTML = navn;
-    cell3.innerHTML = adresse;
-    cell4.innerHTML = bilSkilt;
-    cell5.innerHTML = bilMerke;
-    cell6.innerHTML = bilModel;
-    cell7.innerHTML = '<button onclick="deleteProdukt(this)">Slett</button>';
+    cell2.innerHTML = kjonn;
+    cell3.innerHTML = navn;
+    cell4.innerHTML = adresse;
+    cell5.innerHTML = bilSkilt;
+    cell6.innerHTML = bilMerke;
+    cell7.innerHTML = bilModel;
+    cell8.innerHTML = '<button onclick="deleteProdukt(this)">Slett</button>';
     document.getElementById("personNr").value = "";
     document.getElementById("navn").value = "";
     document.getElementById("adresse").value = "";
@@ -202,13 +240,13 @@
   }
 
   function deleteProdukt(row) {
-    var rowIndex = row.parentNode.parentNode.rowIndex;
+    const rowIndex = row.parentNode.parentNode.rowIndex;
     document.getElementById("bilTable").deleteRow(rowIndex);
   }
 
   document.getElementById('adresse').addEventListener('input', function() {
-    var searchTerm = this.value;
-    var datalistElement = document.getElementById('gateadresseListe');
+    const searchTerm = this.value;
+    const datalistElement = document.getElementById('gateadresseListe');
 
     // Hent gateadresser fra Kartverket Norgeskart API
     fetch(`https://ws.geonorge.no/adresser/v1/sok?sok=${searchTerm}&treffPerSide=10`)
@@ -219,7 +257,7 @@
 
               // Legg til gateadresser i datalisten
               data.adresser.forEach(adresse => {
-                var option = document.createElement("option");
+                const option = document.createElement("option");
 
                 // Legg til postnummer og by i adresseteksten
                 option.value = `${adresse.adressetekst}, ${adresse.postnummer} ${adresse.poststed}`;
@@ -324,7 +362,6 @@
 
   // Funksjon for å generere gyldig personnummer
   function generateRandomPersonNr() {
-    const currentYear = new Date().getFullYear();
     const randomYear = String(Math.floor(Math.random() * 100)).padStart(2, '0');
     const randomMonth = String(Math.floor(Math.random() * 12) + 1).padStart(2, '0'); // Random month (01-12)
     const randomDay = String(Math.floor(Math.random() * 28) + 1).padStart(2, '0'); // Random day (01-28)
@@ -365,10 +402,10 @@
 
   function generateRandomCarBrand() {
     // Get the list of car brands
-    var carBrands = document.getElementById("bilMerkeList").options;
+    const carBrands = document.getElementById("bilMerkeList").options;
 
     // Get a random index within the range of available car brands
-    var randomIndex = Math.floor(Math.random() * carBrands.length);
+    const randomIndex = Math.floor(Math.random() * carBrands.length);
 
     // Return the randomly selected car brand
     return carBrands[randomIndex].value;

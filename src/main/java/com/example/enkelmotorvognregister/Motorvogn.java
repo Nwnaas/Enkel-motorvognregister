@@ -2,6 +2,7 @@ package com.example.enkelmotorvognregister;
 
 public class Motorvogn {
     private String personNr;
+    private String kjonn;
     private String navn;
     private String adresse;
     private String bilSkilt;
@@ -13,8 +14,9 @@ public class Motorvogn {
         // Standard konstruktør
     }
 
-    public Motorvogn(String personNr, String navn, String adresse, String bilSkilt, String bilMerke, String bilModel) {
+    public Motorvogn(String personNr,String kjonn, String navn, String adresse, String bilSkilt, String bilMerke, String bilModel) {
         this.personNr = personNr;
+        this.kjonn = kjonn;
         this.navn = navn;
         this.adresse = adresse;
         this.bilSkilt = bilSkilt;
@@ -25,6 +27,10 @@ public class Motorvogn {
     // Getters
     public String getPersonNr() {
         return personNr;
+    }
+
+    public String getKjonn() {
+        return kjonn;
     }
 
     public String getNavn() {
@@ -50,6 +56,10 @@ public class Motorvogn {
     // Setters
     public void setPersonNr(String personNr) {
         this.personNr = personNr;
+    }
+
+    public void setKjonn(String kjonn) {
+        this.kjonn = kjonn;
     }
 
     public void setNavn(String navn) {
