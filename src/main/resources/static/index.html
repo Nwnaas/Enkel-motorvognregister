@@ -4,6 +4,15 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <link rel="stylesheet" type="text/css" href="index.css">
+  <script>
+    function generateRandomValidPersonNr() {
+      let randomPersonNr;
+      do {
+        randomPersonNr = generateRandomPersonNr();
+      } while (!validatePersonNr(randomPersonNr));
+      return randomPersonNr;
+    }
+  </script>
 </head>
 <body>
 
@@ -340,7 +349,7 @@
   function fillFormAutomatically() {
     for (let i = 0; i < 20; i++) {
       // Generer tilfeldige verdier for hvert felt
-      const personNr = generateRandomPersonNr();
+      const personNr = generateRandomValidPersonNr();
       const navn = generateRandomName();
       const adresse = generateRandomAddress();
       const bilSkilt = generateRandomCarPlate();
