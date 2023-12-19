@@ -10,9 +10,19 @@ Undeveis i programeringen kom jeg på noen ting jeg kunne gjøre får å få mot
 
 Den neste tingen som jeg la til sånn at det skulle være enklere for brukeren var å lage en data list men de mest kjente bilmerkene sånn at det er lettere for brukeren å skrive riktig bilmerke. Her kunne jeg også brukt en API hvor alle bilmerkene lå inne men det gjorde det veldig vanskelig for meg å gjøre sånn at brukeren bare fikk opp modelene til bilmerket brukeren hadde valgt
 
-# Regler for person nummer og bilskilt
+# Regler for fødselsnummer
 
-Jeg la også inn noen regler for hva person nummeret og bilskiltet måtte inneholde. på personnummeret gjorde jeg sånn at de 2 første tallene måtte inneholde ett tall mellom "01" og "31" og at de to tallene etter der måtte inneholde ett tall mellom "01" og "12", resten av tallene kan jo være tilfeldig. jeg kunne også lagt til en regel hvor man bare kan skrive 31 dager vis det er en måned som inneholder 31 men dette tror jeg hadde vært vanskleig å implimentere speiselt når det er skuddår. Jeg la også inn en regel som gjorde sånn at den ser igjenom stukturen på bilskiltet å sjekker om det består av 2 bokstaver og 5 tall.
+Jeg leste meg litt opp på hvordan strukturen på personn nummer er bygget opp på og fant ut at det var en ganske mange ting man måtte passe på f.eks, individ nummer, Kjønn og Kontrollsiffer.
+
+Individ nummeret er de 3 første tallene i personummeret disse forteller oss hvilket periode man er født i. vis man er født mellom 1854-1899 har man mellom 500-749 som indivd nummer, folk som er født mellom 1900-1999 har 000-499. personer som er født mellom 2000-2035 kan ha mellom 500-899. MEN alle født mellom 1940-2035 kan ha ett tall mellom 900-999, men da er det vanskelig å skille forskjell på hvilken periode de er født i. Det siste sifferet i personnummeret sier også hvilken kjønn man er født som, vis man er født dom gutt vil dette tallet være et oddetall og vis man er født som jente vill dette være ett partall.
+
+I fødselsnummeret har vi også kontrollsiffer, dette er en sjekksum begregnet ut ifra de andre tallene i fødelsesnummeret, dette er det mulig å regne ut men er et kanske komlpisert regnestykke.
+
+alle disse kravene har jeg laget en kode som går igjenom å sjekker om det er et riktig fødselsnummer
+
+# Regler for Bilskilt
+
+Jeg la til en regel for bilskilt, som er at strukturen må være 2 bokstaver + 5 tall
 
 # Søke funkson
 
