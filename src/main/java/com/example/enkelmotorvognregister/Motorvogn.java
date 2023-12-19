@@ -8,13 +8,14 @@ public class Motorvogn {
     private String bilSkilt;
     private String bilMerke;
     private String bilModel;
+    private String sted;
 
     // Constructors
     public Motorvogn() {
         // Standard konstruktør
     }
 
-    public Motorvogn(String personNr,String kjonn, String navn, String adresse, String bilSkilt, String bilMerke, String bilModel) {
+    public Motorvogn(String personNr,String kjonn, String navn, String adresse, String bilSkilt, String bilMerke, String bilModel, String sted) {
         this.personNr = personNr;
         this.kjonn = kjonn;
         this.navn = navn;
@@ -22,6 +23,7 @@ public class Motorvogn {
         this.bilSkilt = bilSkilt;
         this.bilMerke = bilMerke;
         this.bilModel = bilModel;
+        this.sted = sted;
     }
 
     // Getters
@@ -53,6 +55,10 @@ public class Motorvogn {
         return bilModel;
     }
 
+    public String getSted() {
+        return sted;
+    }
+
     // Setters
     public void setPersonNr(String personNr) {
         this.personNr = personNr;
@@ -80,5 +86,9 @@ public class Motorvogn {
 
     public void setBilModel(String bilModel) {
         this.bilModel = bilModel;
+    }
+
+    public void setSted(String sted) {
+        this.sted = sted;
     }
 }

@@ -113,6 +113,7 @@
     <th>Bilskilt</th>
     <th>Bilmerke</th>
     <th>Bilmodel</th>
+    <th>Registrerings Sted</th>
     <th>Fjern</th>
   </tr>
 </table>
@@ -210,6 +211,24 @@
     const bilMerke = document.getElementById("bilMerke").value;
     const bilModel = document.getElementById("bilModel").value;
     const kjonn = getKjonnFromPersonNr(personNr);
+    const skiltPrefix = bilSkilt.substring(0, 2).toLowerCase();
+
+    let sted = "";
+
+    for (const item of byerOgBokstavkoder) {
+      if (item.bokstavkoder.includes(skiltPrefix)) {
+        sted = item.by;
+        break;
+      }
+      if (skiltPrefix.charAt(0) === 'e') {
+         sted = "Elbil";
+      }
+
+    }
+
+    if (sted === "") {
+      sted = "Ukjent sted";
+    }
 
 
     if (!validatePersonNr(personNr)) {
@@ -232,6 +251,7 @@
     const cell6 = row.insertCell(5);
     const cell7 = row.insertCell(6);
     const cell8 = row.insertCell(7);
+    const cell9 = row.insertCell(8);
     cell1.innerHTML = personNr;
     cell2.innerHTML = kjonn;
     cell3.innerHTML = navn;
@@ -239,7 +259,8 @@
     cell5.innerHTML = bilSkilt;
     cell6.innerHTML = bilMerke;
     cell7.innerHTML = bilModel;
-    cell8.innerHTML = '<button onclick="deleteProdukt(this)">Slett</button>';
+    cell8.innerHTML = sted;
+    cell9.innerHTML = '<button onclick="deleteProdukt(this)">Slett</button>';
     document.getElementById("personNr").value = "";
     document.getElementById("navn").value = "";
     document.getElementById("adresse").value = "";
@@ -399,12 +420,20 @@
   }
 
   function generateRandomCarPlate() {
-    const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
     const numbers = '0123456789';
 
-    const randomLetters = Array.from({ length: 2 }, () => letters[Math.floor(Math.random() * letters.length)]).join('');
+    // Velger tilfeldig by og bokstavkode fra listen
+    const randomCityEntry = byerOgBokstavkoder[Math.floor(Math.random() * byerOgBokstavkoder.length)];
+    const randomCity = randomCityEntry.by;
+    const randomLetterCode = randomCityEntry.bokstavkoder[Math.floor(Math.random() * randomCityEntry.bokstavkoder.length)];
+
+    // Setter opp to identiske bokstaver basert på valgt by og bokstavkode
+    const randomLetters = randomLetterCode.repeat(1);
+
+    // Genererer tilfeldige tall
     const randomNumbers = Array.from({ length: 5 }, () => numbers[Math.floor(Math.random() * numbers.length)]).join('');
 
+    // Setter sammen og returnerer bilskiltet
     return `${randomLetters}${randomNumbers}`;
   }
 
@@ -482,6 +511,60 @@
     // If the selected brand is not found or not provided, return an empty string or handle it as needed
     return '';
   }
+
+
+  const byerOgBokstavkoder = [
+    { by: "Halden", bokstavkoder: ["aa", "ab", "ac"] },
+    { by: "Hafslund", bokstavkoder: ["ad", "ae", "af", "ah", "ar", "as", "at", "au", "av", "aw", "dw", "fl", "es"] },
+    { by: "Fredrikstad", bokstavkoder: ["ar", "as", "at", "au", "av", "aw", "dw", "fl", "es"] },
+    { by: "Mysen", bokstavkoder: ["aj", "ak", "al", "an", "ap", "bw"] },
+    { by: "Moss", bokstavkoder: ["ax", "ay", "az", "ba", "fn"] },
+    { by: "Follo", bokstavkoder: ["bc", "bd", "be", "bf", "bh", "bj", "bk"] },
+    { by: "Asker og Bærum", bokstavkoder: ["bl", "bn", "bp", "br", "bs", "bt", "bu", "bv", "bx", "by", "bz", "ca", "cb"] },
+    { by: "Lillestrøm", bokstavkoder: ["cc", "ce", "cf", "ch", "cj", "ck", "cl", "cn", "cp", "cr", "cs", "ct", "cu"] },
+    { by: "Jessheim", bokstavkoder: ["cv", "cx", "cy", "cz"] },
+    { by: "Hønefoss", bokstavkoder: ["ju", "jv", "jx", "jy", "jz", "ka"] },
+    { by: "Gol", bokstavkoder: ["kb", "kc", "kd"] },
+    { by: "Drammen", bokstavkoder: ["ke", "kf", "kh", "kj", "kk", "kl", "kn", "kp", "kr", "ks"] },
+    { by: "Kongsberg", bokstavkoder: ["kt", "ku", "kv", "kx", "ky"] },
+    { by: "Oslo", bokstavkoder: ["da", "db", "dc", "dd", "de", "df", "dh", "dj", "dk", "dl", "dn", "dp", "dr", "ds", "dt", "du", "dv", "dx", "dy", "dz", "ea", "ef", "eh", "ej", "en", "ep", "er", "es", "et", "eu"] },
+    { by: "Hamar", bokstavkoder: ["fs", "ft", "fu", "fv", "fx", "fy", "fz", "et"] },
+    { by: "Elverum", bokstavkoder: ["hb", "hc", "hd", "he", "ha"] },
+    { by: "Tynset", bokstavkoder: ["hf", "hh"] },
+    { by: "Kongsvinger", bokstavkoder: ["hj", "hk", "hl", "hn", "hp", "hr"] },
+    { by: "Lillehammer", bokstavkoder: ["hs", "ht", "hu", "hv", "hx", "fb"] },
+    { by: "Otta", bokstavkoder: ["hz", "ja", "jb"] },
+    { by: "Gjøvik", bokstavkoder: ["jc", "jd", "je", "jf", "jh", "jj", "jk", "jl", "jn", "jp", "kw"] },
+    { by: "Fagernes", bokstavkoder: ["jr", "js", "jt"] },
+    { by: "Horten", bokstavkoder: ["kz", "la", "lb", "lc", "ld"] },
+    { by: "Tønsberg", bokstavkoder: ["lh", "lj", "lk", "ll", "ln", "lp", "lr", "ld"] },
+    { by: "Larvik", bokstavkoder: ["ls", "lt", "lu", "lv", "lx"] },
+    { by: "Sandefjord", bokstavkoder: ["ly", "na", "nb", "nc"] },
+    { by: "Skien", bokstavkoder: ["nd", "ne", "nf", "nh", "nj", "nk", "nl", "nn", "np", "nr", "nt", "nu"] },
+    { by: "Porsgrunn", bokstavkoder: ["nn", "nu"] },
+    { by: "Notodden", bokstavkoder: ["nv", "nx", "ny", "nz"] },
+    { by: "Rjukan", bokstavkoder: ["pa", "pb"] },
+    { by: "Arendal", bokstavkoder: ["pc", "pd", "pe", "pf", "ph", "pj", "pk"] },
+    { by: "Setesdal", bokstavkoder: ["pl", "lf"] },
+    { by: "Kristiansand", bokstavkoder: ["pn", "pp", "pr", "ps", "pt", "pu", "pv", "pw"] },
+    { by: "Mandal", bokstavkoder: ["px", "py", "pz", "rc", "rd"] },
+    { by: "Flekkefjord", bokstavkoder: ["ra", "rb"] },
+    { by: "Stavanger", bokstavkoder: ["re", "rf", "rh", "rj", "rk", "rl", "rn", "rp", "rr", "rs", "rt", "ru", "rv", "rx", "ry", "rw"] },
+    { by: "Egersund", bokstavkoder: ["rz", "sa", "sb"] },
+    { by: "Haugesund", bokstavkoder: ["sc", "sd", "se", "sf", "sh", "sj", "sk", "sl"] },
+    { by: "Bergen", bokstavkoder: ["sn", "sp", "sr", "ss", "st", "su", "sv", "sx", "sy", "sz", "ta", "tb", "tc", "td", "te", "hw"] },
+    { by: "Voss", bokstavkoder: ["tf", "th", "tj", "tk"] },
+    { by: "Stord", bokstavkoder: ["tl", "tn", "tp", "tr"] },
+    { by: "Odda", bokstavkoder: ["ts", "tt", "tu"] },
+    { by: "Førde", bokstavkoder: ["tv", "tx", "ty", "tz"] },
+    { by: "Nordfjordeid", bokstavkoder: ["ua", "ub"] },
+    { by: "Sogndal", bokstavkoder: ["uc", "ud"] },
+    { by: "Ålesund", bokstavkoder: ["ue", "uf", "uh", "uj", "uk", "ul", "ug"] },
+    { by: "Ørsta", bokstavkoder: ["un", "up", "bb"] },
+    { by: "Molde", bokstavkoder: ["ur", "us", "ut", "uu", "uv"] },
+    { by: "Kristiansund", bokstavkoder: ["ux", "uy", "uz", "va"] },
+    { by: "Sunndalsøra", bokstavkoder: ["vb", "vc"] }
+  ];
 </script>
 </body>
 </html>
