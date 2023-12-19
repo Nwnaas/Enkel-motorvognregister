@@ -159,3 +159,73 @@ Dette gjorde jeg ved å lage en stor liste å lagde en funksjon som lette etter 
 7. #### Noen andre ting som kan forbedres?
 
    Nei, synes egentlig ikke at det var noe mere som kunne forbedres utenom at man skal kunne legge til hvilken farge bilen er.
+
+## Bruker 2.
+
+### Oppgave til brukeren
+
+1. #### Gi nettsiden et overblikk. Hva synes du?
+
+   Det er bra ut.
+
+2. #### Hva tror du denne nettsiden er?
+
+   Jeg tipper det er en mottorvognregister fordi det står i stor skrift.
+
+3. #### Hvor tror du at du skal skrive får å legge en bruker inn i motorvogn registeret?
+
+   Den boksen i midten.
+
+4. #### Klarer du å finne adressen din ved å fylle ut felltet "Eiers adresse"?
+
+   Ja.
+
+5. #### Klarer du å finne favoritt bilmerket og favorittbilmoddelen din?
+
+   Ja.
+
+6. #### Klarer du å registrere en bruker uten hjelp fra knappen "Fyll ut automatisk"?
+
+   Ja.
+
+7. #### Kan du legge til 20 brukere automatisk?
+
+   Ja.
+
+8. #### Klarer du å søke etter bilmerke?
+
+   Ja.
+
+9. #### Klarer du å slette en registrert bil?
+
+   Ja.
+
+### Tilbakemeldigsspørsmåll
+
+1. #### Hva synes du om nettsiden?
+
+   Kult.
+
+2. #### Hvordan var det å navigere rundt på siden?
+
+   Lett.
+
+3. #### Hva synes du om fargene?
+
+   bra.
+
+4. #### Hvordan synes du det var å fylle ut skjemaet var det noe som manglet?
+
+   Det var lett, synes den inneholt alt man trenger.
+
+5. #### Var det oversiktlig måten man kunne søke på adresser og bilmerker/bilmodeller?
+
+   Ja.
+
+6. #### Var det oversiklig måten man kunne søke ettter personer eller biler?
+
+   Ja.
+
+7. #### Noen andre ting som kan forbedres?
+
+   Nei, synes den var bra.
