@@ -29,7 +29,7 @@ men da er det vanskelig å skille forskjell på hvilken periode de er født i.
 Det siste sifferet i personnummeret sier også hvilken kjønn man er født som, 
 vis man er født dom gutt vil dette tallet være et oddetall og vis man er født som jente vill dette være ett partall.
 
-#### fødselsnummeret
+#### Fødselsnummeret
 
 I fødselsnummeret har vi også kontrollsiffer, 
 dette er en sjekksum begregnet ut ifra de andre tallene i fødelsesnummeret, 
@@ -166,7 +166,7 @@ Dette gjorde jeg ved å lage en stor liste å lagde en funksjon som lette etter 
 
 1. #### Gi nettsiden et overblikk. Hva synes du?
 
-   Det er bra ut.
+   Det ser bra ut.
 
 2. #### Hva tror du denne nettsiden er?
 
