@@ -309,7 +309,29 @@ Dette gjorde jeg ved å lage en stor liste å lagde en funksjon som lette etter 
 ## Oppsumering av Brukertesting
 
 ### Alt var bra uten om:
-   1. At man ikke kunne velge farge på bilen
-   2. Endre navnet på knappen som legger til 20. brukere.
-   3. Legge til bilmodellen "Eletre", som er en bil "Lotus" har laget.
-   4. At jeg burde legge til noen flere farger sånn at ikke nettsiden er så kjedelig.
+   - [ ] At man ikke kunne velge farge på bilen
+   - [ ] Endre navnet på knappen som legger til 20. brukere.
+   - [x] Legge til bilmodellen "Eletre", som er en bil "Lotus" har laget.
+   - [ ] At jeg burde legge til noen flere farger sånn at ikke nettsiden er så kjedelig.
+
+# Litteaturliste
+
+   ### Kilder for fødselsnummer
+
+   - https://no.wikipedia.org/wiki/F%C3%B8dselsnummer
+   - https://www.skatteetaten.no/person/folkeregister/identitetsnummer/fodselsnummer/
+
+   ### Kilder for bilskilt
+
+   - https://no.wikipedia.org/wiki/Kjennemerke_for_motorkj%C3%B8ret%C3%B8y_i_Norge
+   - https://snl.no/norske_bilkjennetegn
+
+   ### Kilder for Kartverket´s API
+
+   - https://ws.geonorge.no/adresser/v1/
+   - https://kartverket.no/api-og-data/eiendomsdata/brukarrettleiing-adresse-api
+
+   ### Kilder brukt igjennom hele prossessen
+
+   - https://www.w3schools.com/
+   - https://chat.openai.com/
