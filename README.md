@@ -1,7 +1,12 @@
 # Enkel-Motorvognregister
 
-Dette er en mottorvognregister som registrerer perosonnummer, navn, adresse, bilskilt, bilmerke og bilmodel. 
-Målet med dette prosjektet er å utfordre kompetangsen min innen html, javascript og java. 
+
+Dette registeret for biler holder styr på viktig info som personnummer, kjønn
+navn, adresse, bilskilt, bilmerke, registrerings sted og bilmodell. 
+Målet med prosjektet er å bli bedre på HTML, 
+JavaScript og Java. 
+Jeg vil ikke bare lage en simpel motorvognregister, 
+jeg vil utfordre min kunskap ved å impimentere APIer, lage datalister og lage regler for fødselsnummer og bilskilt.
 
 ## Kartverket´s API
 
