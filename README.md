@@ -308,7 +308,7 @@ Dette gjorde jeg ved å lage en stor liste å lagde en funksjon som lette etter 
 
 ## Oppsumering av Brukertesting
 
-### Alt var bra uten om:
+### Ting jeg må endre på:
    - [ ] At man ikke kunne velge farge på bilen
    - [ ] Endre navnet på knappen som legger til 20. brukere.
    - [x] Legge til bilmodellen "Eletre", som er en bil "Lotus" har laget.
