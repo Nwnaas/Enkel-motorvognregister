@@ -305,3 +305,11 @@ Dette gjorde jeg ved å lage en stor liste å lagde en funksjon som lette etter 
    Det andre jeg hadde gjordt er å legge til bilmodellen til "Lotus" som heter "Eletre"
 
    Det tredde jeg hadde gjord er å ha litt mere farger sånn at ikke nettsiden er så kjedelig
+
+## Oppsumering av Brukertesting
+
+### Alt var bra uten om:
+   1. At man ikke kunne velge farge på bilen
+   2. Endre navnet på knappen som legger til 20. brukere.
+   3. Legge til bilmodellen "Eletre", som er en bil "Lotus" har laget.
+   4. At jeg burde legge til noen flere farger sånn at ikke nettsiden er så kjedelig.
