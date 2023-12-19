@@ -229,3 +229,79 @@ Dette gjorde jeg ved å lage en stor liste å lagde en funksjon som lette etter 
 7. #### Noen andre ting som kan forbedres?
 
    Nei, synes den var bra.
+
+## Bruker 3.
+
+### Oppgave til brukeren
+
+1. #### Gi nettsiden et overblikk. Hva synes du?
+
+   Jeg synes den ser ryddig ut
+
+2. #### Hva tror du denne nettsiden er?
+
+   Det ser ut som at det er en motorvognregister hvor man kan registrere navn bilskilt bilmerke osv.
+
+3. #### Hvor tror du at du skal skrive får å legge en bruker inn i motorvogn registeret?
+
+   Jeg vil anta at det er i midten av skjermen.
+
+4. #### Klarer du å finne adressen din ved å fylle ut felltet "Eiers adresse"?
+
+   Ja, jeg klarte å finne adressen min veldig fort.
+
+5. #### Klarer du å finne favoritt bilmerket og favorittbilmoddelen din?
+
+   Nei, jeg klarte lett å finne bilmerke men bilmodelen var ikke på listen.
+
+6. #### Klarer du å registrere en bruker uten hjelp fra knappen "Fyll ut automatisk"?
+
+   Ja det klarte jeg, jeg måtte bare bruke 2 forsåk siden jeg bare skrev inn noen tilfeldige tall på fødselsnummeret.
+
+7. #### Kan du legge til 20 brukere automatisk?
+
+   Ja, men det tokk litt tid før jeg skjønte at det var den knappen.
+
+8. #### Klarer du å søke etter bilmerke?
+
+   Ja, dette var ganske lett
+
+9. #### Klarer du å slette en registrert bil?
+
+   Ja, det er bare å trykke på slett til høyre for bilen
+
+### Tilbakemeldigsspørsmåll
+
+1. #### Hva synes du om nettsiden?
+
+   Jeg synes den er ganske oversiktlig men det var noen få ting jeg savnet
+
+2. #### Hvordan var det å navigere rundt på siden?
+
+   Det var ikke noe problem å navigere rundt på siden.
+
+3. #### Hva synes du om fargene?
+
+   Jeg like fargene veldig godt, men kansje litt kjedelig.
+
+4. #### Hvordan synes du det var å fylle ut skjemaet var det noe som manglet?
+
+   Jeg synes det var veldig lett
+
+5. #### Var det oversiktlig måten man kunne søke på adresser og bilmerker/bilmodeller?
+
+   Ja det var veldig lett, uten om at favoritt bil modellen min ikke var der.
+
+6. #### Var det oversiklig måten man kunne søke ettter personer eller biler?
+
+   Ja, det var veldig oversiktlig
+
+7. #### Noen andre ting som kan forbedres?
+
+   Ja jeg har noen ting du burde gjøre.
+   
+   Først så hadde jeg endret navnet på knappen som automatisk legger til brukere.
+   
+   Det andre jeg hadde gjordt er å legge til bilmodellen til "Lotus" som heter "Eletre"
+
+   Det tredde jeg hadde gjord er å ha litt mere farger sånn at ikke nettsiden er så kjedelig
