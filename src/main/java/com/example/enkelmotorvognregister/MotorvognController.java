@@ -1,15 +1,33 @@
 package com.example.enkelmotorvognregister;
 
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@RestController
 public class MotorvognController {
-    private final List<Motorvogn> motorvognList = new ArrayList<>();
+
+    public final List<Motorvogn> alleBiler = new ArrayList<>();
+
+    @GetMapping("/lagre")
+    public void lagreBiller(Motorvogn innBiler){
+        alleBiler.add(innBiler);
+    }
+    @GetMapping("/hentAlle")
+    public List<Motorvogn> hentAlle(){
+        return alleBiler;
+    }
+
+    @GetMapping("/slettAlle")
+    public void slettAlle(){
+        alleBiler.clear();
+    }
+
+
+
+   /* private final List<Motorvogn> motorvognList = new ArrayList<>();
 
     @GetMapping("/motorvogn")
     public String visMotorvognSide(Model model) {
@@ -22,4 +40,6 @@ public class MotorvognController {
         motorvognList.add(motorvogn);
         return "redirect:/motorvogn";
     }
+
+    */
 }
