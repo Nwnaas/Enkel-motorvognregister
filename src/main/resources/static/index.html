@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>Motorvognregister</title>
     <link rel="stylesheet" type="text/css" href="index.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script>
     function generateRandomValidPersonNr() {
       let randomPersonNr;
@@ -96,6 +97,7 @@
 
   <button type="button" onclick="addProdukt()">Registrer</button>
   <button type="button" onclick="fillFormAutomatically()">Legg til 20 brukere</button>
+  <button type="button" onclick="slettKundene()">Fjern alle brukere</button>
 </form>
 
 <h2>Motorvognregister</h2>
@@ -119,41 +121,139 @@
 </table>
 
 <script>
+  function slettKundene() {
+    $.get( "/slettAlle", function( data ) {
+      hentAlle();
+    });
+  }
+
+  function hentAlle() {
+    $.get( "/hentAlle", function( data ) {
+      formaterData(data);
+    });
+  }
+  function formaterData(bil){
+    var ut =
+            "<tr>" +
+            "<th>PersonNr</th><th>Kjonn</th><th>Navn</th><th>Adresse</th><th>Bilskilt</th><th>Bilmerke</th><th>Bilmodel</th><th>Registrerings Sted</th><th>Fjern</th>\n" +
+            "</tr>";
+    for(let i in bil ){
+      ut+="<tr><td>"+bil[i].personNr+"</td><td>"+bil[i].kjonn+"</td><td>"+bil[i].navn+"</td><td>"+bil[i].adresse+"</td><td>"+bil[i].bilSkilt+"</td><td>"+bil[i].bilMerke+"</td><td>"+bil[i].bilModel+"</td><td>"+bil[i].sted+"</td><td>"+bil[i].fjern+"</td></tr>"
+    }
+    $("#bilTable").html(ut);
+  }
+  function addProdukt() {
+
+    const personNr = document.getElementById("personNr").value;
+    const navn = document.getElementById("navn").value;
+    const adresse = document.getElementById("adresse").value;
+    const bilSkilt = document.getElementById("bilSkilt").value;
+    const bilMerke = document.getElementById("bilMerke").value;
+    const bilModel = document.getElementById("bilModel").value;
+    const kjonn = getKjonnFromPersonNr(personNr);
+    const skiltPrefix = bilSkilt.substring(0, 2).toLowerCase();
+    let sted = "";
+
+    for (const item of byerOgBokstavkoder) {
+      if (item.bokstavkoder.includes(skiltPrefix)) {
+        sted = item.by;
+        break;
+      }
+      if (skiltPrefix.charAt(0) === 'e') {
+        sted = "Elbil";
+      }
+
+    }
+
+    if (sted === "") {
+      sted = "Ukjent sted";
+    }
+
+
+    if (!validatePersonNr(personNr)) {
+      alert("Vennligst skriv inn et gyldig personnummer.");
+      return;
+    }
+
+    if (!validateBilSkilt(bilSkilt)) {
+      alert("Vennligst skriv inn bilskilt på riktig format (2 bokstaver + 5 tall).");
+      return;
+    }
+
+    const bil = {
+      personNr : $("#personNr").val(),
+      kjonn : getKjonnFromPersonNr(personNr),
+      navn : $("#navn").val(),
+      adresse : $("#adresse").val(),
+      bilSkilt : $("#bilSkilt").val().toUpperCase(),
+      bilMerke : $("#bilMerke").val(),
+      bilModel : $("#bilModel").val(),
+      sted : sted,
+      fjern : "<button onclick=\"deleteProdukt(this)\">Slett</button>",
+    }
+    const url = "/lagre";
+    $.get(url,bil,function(retur){
+      hentAlle();
+    });
+    $("#personNr").val(""); //tøm input-feltene
+    $("#navn").val("");
+    $("#adresse").val("");
+    $("#bilSkilt").val("");
+    $("#bilMerke").val("");
+    $("#bilModel").val("");
+
+
+
+
+
+
+
+  /*  const table = document.getElementById("bilTable");
+    const row = table.insertRow(-1);
+    const cell1 = row.insertCell(0);
+    const cell2 = row.insertCell(1);
+    const cell3 = row.insertCell(2);
+    const cell4 = row.insertCell(3);
+    const cell5 = row.insertCell(4);
+    const cell6 = row.insertCell(5);
+    const cell7 = row.insertCell(6);
+    const cell8 = row.insertCell(7);
+    const cell9 = row.insertCell(8);
+    cell1.innerHTML = personNr;
+    cell2.innerHTML = kjonn;
+    cell3.innerHTML = navn;
+    cell4.innerHTML = adresse;
+    cell5.innerHTML = bilSkilt;
+    cell6.innerHTML = bilMerke;
+    cell7.innerHTML = bilModel;
+    cell8.innerHTML = sted;
+    cell9.innerHTML = '<button onclick="deleteProdukt(this)">Slett</button>';
+    document.getElementById("personNr").value = "";
+    document.getElementById("navn").value = "";
+    document.getElementById("adresse").value = "";
+    document.getElementById("bilSkilt").value = "";
+    document.getElementById("bilMerke").value = "";
+    document.getElementById("bilModel").value = "";
+   */
+
+  }
+
+  function deleteProdukt(row) {
+    const rowIndex = row.parentNode.parentNode.rowIndex;
+    document.getElementById("bilTable").deleteRow(rowIndex);
+  }
+
   function getKjonnFromPersonNr(personNr) {
     const thirdLastDigit = parseInt(personNr.charAt(8), 10);
     return thirdLastDigit % 2 === 0 ? 'Jente' : 'Gutt';
   }
-  function searchTable() {
-    let input, filter, table, tr, td, i, txtValue;
-    input = document.getElementById("search");
-    filter = input.value.toUpperCase();
-    table = document.getElementById("bilTable");
-    tr = table.getElementsByTagName("tr");
 
-    for (i = 1; i < tr.length; i++) { // Start i=1 for å unngå å søke i overskriftsraden
-      let found = false; // Legg til denne variabelen for å sjekke om søkeordet er funnet i raden
-      for (let j = 1; j < tr[i].cells.length; j++) { // Start j=1 for å unngå å søke i første celle
-        td = tr[i].getElementsByTagName("td")[j];
-        if (td) {
-          txtValue = td.textContent || td.innerText;
-          if (txtValue.toUpperCase().indexOf(filter) > -1) {
-            found = true;
-            break; // Avbryt løkken hvis vi har funnet en match i denne raden
-          }
-        }
-      }
-      if (found) {
-        tr[i].style.display = "";
-      } else {
-        tr[i].style.display = "none";
-      }
-    }
-  }
   function validateBilSkilt(bilSkilt) {
     // Mønster for å validere bilskilt på formen 2 bokstaver + 5 tall
     const pattern = /^[A-Za-z]{2}\d{5}$/;
     return pattern.test(bilSkilt);
   }
+
   function validatePersonNr(personNr) {
     // Sjekk at personnummeret er 11 tegn
     if (personNr.length !== 11) {
@@ -203,75 +303,31 @@
     return k1 === expectedCheckDigit && k2 === (k1 === 10 ? 0 : k2 === 10 ? 0 : k2);
   }
 
-  function addProdukt() {
-    const personNr = document.getElementById("personNr").value;
-    const navn = document.getElementById("navn").value;
-    const adresse = document.getElementById("adresse").value;
-    const bilSkilt = document.getElementById("bilSkilt").value;
-    const bilMerke = document.getElementById("bilMerke").value;
-    const bilModel = document.getElementById("bilModel").value;
-    const kjonn = getKjonnFromPersonNr(personNr);
-    const skiltPrefix = bilSkilt.substring(0, 2).toLowerCase();
+  function searchTable() {
+    let input, filter, table, tr, td, i, txtValue;
+    input = document.getElementById("search");
+    filter = input.value.toUpperCase();
+    table = document.getElementById("bilTable");
+    tr = table.getElementsByTagName("tr");
 
-    let sted = "";
-
-    for (const item of byerOgBokstavkoder) {
-      if (item.bokstavkoder.includes(skiltPrefix)) {
-        sted = item.by;
-        break;
+    for (i = 1; i < tr.length; i++) { // Start i=1 for å unngå å søke i overskriftsraden
+      let found = false; // Legg til denne variabelen for å sjekke om søkeordet er funnet i raden
+      for (let j = 1; j < tr[i].cells.length; j++) { // Start j=1 for å unngå å søke i første celle
+        td = tr[i].getElementsByTagName("td")[j];
+        if (td) {
+          txtValue = td.textContent || td.innerText;
+          if (txtValue.toUpperCase().indexOf(filter) > -1) {
+            found = true;
+            break; // Avbryt løkken hvis vi har funnet en match i denne raden
+          }
+        }
       }
-      if (skiltPrefix.charAt(0) === 'e') {
-         sted = "Elbil";
+      if (found) {
+        tr[i].style.display = "";
+      } else {
+        tr[i].style.display = "none";
       }
-
     }
-
-    if (sted === "") {
-      sted = "Ukjent sted";
-    }
-
-
-    if (!validatePersonNr(personNr)) {
-      alert("Vennligst skriv inn et gyldig personnummer.");
-      return;
-    }
-
-    if (!validateBilSkilt(bilSkilt)) {
-      alert("Vennligst skriv inn bilskilt på riktig format (2 bokstaver + 5 tall).");
-      return;
-    }
-
-    const table = document.getElementById("bilTable");
-    const row = table.insertRow(-1);
-    const cell1 = row.insertCell(0);
-    const cell2 = row.insertCell(1);
-    const cell3 = row.insertCell(2);
-    const cell4 = row.insertCell(3);
-    const cell5 = row.insertCell(4);
-    const cell6 = row.insertCell(5);
-    const cell7 = row.insertCell(6);
-    const cell8 = row.insertCell(7);
-    const cell9 = row.insertCell(8);
-    cell1.innerHTML = personNr;
-    cell2.innerHTML = kjonn;
-    cell3.innerHTML = navn;
-    cell4.innerHTML = adresse;
-    cell5.innerHTML = bilSkilt;
-    cell6.innerHTML = bilMerke;
-    cell7.innerHTML = bilModel;
-    cell8.innerHTML = sted;
-    cell9.innerHTML = '<button onclick="deleteProdukt(this)">Slett</button>';
-    document.getElementById("personNr").value = "";
-    document.getElementById("navn").value = "";
-    document.getElementById("adresse").value = "";
-    document.getElementById("bilSkilt").value = "";
-    document.getElementById("bilMerke").value = "";
-    document.getElementById("bilModel").value = "";
-  }
-
-  function deleteProdukt(row) {
-    const rowIndex = row.parentNode.parentNode.rowIndex;
-    document.getElementById("bilTable").deleteRow(rowIndex);
   }
 
   document.getElementById('adresse').addEventListener('input', function() {
