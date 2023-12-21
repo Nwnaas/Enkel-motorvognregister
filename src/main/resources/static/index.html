@@ -165,52 +165,35 @@
 <script>
 
     function slettKundene() {
-        $.get("/slettAlle", function (data) {
-            hentAlle();
-        });
+        $.get("/slettAlle", hentAlle);
     }
 
     function hentAlle() {
-        $.get("/hentAlle", function (data) {
-            formaterData(data);
-        });
+        $.get("/hentAlle", formaterData);
     }
 
     function formaterData(bil) {
-        let ut =
-            "<tr>" +
-            "<th>PersonNr</th><th>Kjonn</th><th>Navn</th><th>Adresse</th><th>Bilskilt</th><th>Bilmerke</th><th>Bilmodel</th><th>Bilfarge</th><th>Registrerings Sted</th><th>Fjern</th>\n" +
-            "</tr>";
-        for (let i in bil) {
-            ut += "<tr><td>" + bil[i].personNr + "</td><td>" + bil[i].kjonn + "</td><td>" + bil[i].navn + "</td><td>" + bil[i].adresse + "</td><td>" + bil[i].bilSkilt + "</td><td>" + bil[i].bilMerke + "</td><td>" + bil[i].bilModel + "</td>" + bil[i].bilFarge + "<td>" + bil[i].sted + "</td><td>" + bil[i].fjern + "</td></tr>"
-        }
-        $("#bilTable").html(ut);
+        const headerRow = "<tr><th>PersonNr</th><th>Kjonn</th><th>Navn</th><th>Adresse</th><th>Bilskilt</th><th>Bilmerke</th><th>Bilmodel</th><th>Bilfarge</th><th>Registrerings Sted</th><th>Fjern</th></tr>";
+        const rows = bil.map(item =>
+            `<tr><td>${item.personNr}</td><td>${item.kjonn}</td><td>${item.navn}</td><td>${item.adresse}</td><td>${item.bilSkilt}</td><td>${item.bilMerke}</td><td>${item.bilModel}</td>${item.bilFarge}<td>${item.sted}</td><td>${item.fjern}</td></tr>`
+        );
+
+        $("#bilTable").html(headerRow + rows.join(''));
     }
 
     function addProdukt() {
-
-        const personNr = document.getElementById("personNr").value;
-        const bilSkilt = document.getElementById("bilSkilt").value;
+        const personNr = $("#personNr").val();
+        const bilSkilt = $("#bilSkilt").val();
         const skiltPrefix = bilSkilt.substring(0, 2).toLowerCase();
         const bilFargeInput = $("#bilFarge");
         let sted = "";
 
-
         for (const item of byerOgBokstavkoder) {
-            if (item.bokstavkoder.includes(skiltPrefix)) {
-                sted = item.by;
-                break;
-            }
-            if (skiltPrefix.charAt(0) === 'e') {
-                sted = "Elbil";
-            }
-
+            sted = item.bokstavkoder.includes(skiltPrefix) ? item.by : (skiltPrefix.charAt(0) === 'e' ? "Elbil" : sted);
+            if (sted) break;
         }
 
-        if (sted === "") {
-            sted = "Ukjent sted";
-        }
-
+        sted = sted || "Ukjent sted";
 
         if (!validatePersonNr(personNr)) {
             alert("Vennligst skriv inn et gyldig personnummer.");
@@ -223,29 +206,22 @@
         }
 
         const bil = {
-            personNr: $("#personNr").val(),
+            personNr,
             kjonn: getKjonnFromPersonNr(personNr),
             navn: $("#navn").val(),
             adresse: $("#adresse").val(),
-            bilSkilt: $("#bilSkilt").val().toUpperCase(),
+            bilSkilt: bilSkilt.toUpperCase(),
             bilMerke: $("#bilMerke").val(),
             bilModel: $("#bilModel").val(),
             bilFarge: genererFargeKode(bilFargeInput),
-            sted: sted,
+            sted,
             fjern: "<button onclick=\"deleteProdukt(this)\">Slett</button>",
-        }
-        const url = "/lagre";
-        $.get(url, bil, function (retur) {
-            hentAlle();
-        });
-        $("#personNr").val(""); //tøm input-feltene
-        $("#navn").val("");
-        $("#adresse").val("");
-        $("#bilSkilt").val("");
-        $("#bilMerke").val("");
-        $("#bilModel").val("");
-        $("#bilFarge").val("");
+        };
 
+        $.get("/lagre", bil, hentAlle);
+
+        // Tøm input-feltene
+        $("#personNr, #navn, #adresse, #bilSkilt, #bilMerke, #bilModel, #bilFarge").val("");
     }
 
     function deleteProdukt(row) {
