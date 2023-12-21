@@ -317,7 +317,7 @@ Dette gjorde jeg ved å lage en stor liste å lagde en funksjon som lette etter 
    - [x] At man ikke kunne velge farge på bilen
    - [x] Endre navnet på knappen som legger til 20. brukere.
    - [x] Legge til bilmodellen "Eletre", som er en bil "Lotus" har laget.
-   - [ ] At jeg burde legge til noen flere farger sånn at ikke nettsiden er så kjedelig.
+   - [x] At jeg må endre litt på hvordan det ser ut siden det ser litt skjedelig ut.
 
 # Litteaturliste
 
