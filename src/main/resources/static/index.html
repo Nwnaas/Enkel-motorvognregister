@@ -95,6 +95,47 @@
   <input type="text" list="bilModelList" id="bilModel" name="bilModel"  required><br><br>
   <datalist id="bilModelList"></datalist>
 
+  <label for="bilFarge">Bilfarge:</label>
+  <input type="text" list="bilFargeList" id="bilFarge" name="bilFarge" required>
+
+  <datalist id="bilFargeList">
+    <option value="Svart" data-farge="#000000">Svart</option>
+    <option value="Hvit" data-farge="#FFFFFF">Hvit</option>
+    <option value="Rød" data-farge="#FF0000">Rød</option>
+    <option value="Grønn" data-farge="#00FF00">Grønn</option>
+    <option value="Blå" data-farge="#0000FF">Blå</option>
+    <option value="Gul" data-farge="#FFFF00">Gul</option>
+    <option value="Oransje" data-farge="#FFA500">Oransje</option>
+    <option value="Lilla" data-farge="#800080">Lilla</option>
+    <option value="Rosa" data-farge="#FFC0CB">Rosa</option>
+    <option value="Brun" data-farge="#A52A2A">Brun</option>
+    <option value="Gull" data-farge="#FFD700">Gull</option>
+    <option value="Sølv" data-farge="#C0C0C0">Sølv</option>
+    <option value="Grå" data-farge="#808080">Grå</option>
+    <option value="Turkis" data-farge="#40E0D0">Turkis</option>
+    <option value="Indigo" data-farge="#4B0082">Indigo</option>
+    <option value="Mørkerød" data-farge="#8B0000">Mørkerød</option>
+    <option value="Limegrønn" data-farge="#00FF00">Limegrønn</option>
+    <option value="Koboltblå" data-farge="#0000FF">Koboltblå</option>
+    <option value="Beige" data-farge="#F5F5DC">Beige</option>
+    <option value="Korall" data-farge="#FF7F50">Korall</option>
+    <option value="Olivengrønn" data-farge="#808000">Olivengrønn</option>
+    <option value="Sjokoladebrun" data-farge="#D2691E">Sjokoladebrun</option>
+    <option value="Malakittgrønn" data-farge="#00FA9A">Malakittgrønn</option>
+    <option value="Aubergine" data-farge="#9932CC">Aubergine</option>
+    <option value="Mauve" data-farge="#E0B0FF">Mauve</option>
+    <option value="Sennepsgul" data-farge="#FFDB58">Sennepsgul</option>
+    <option value="Vinrød" data-farge="#800000">Vinrød</option>
+    <option value="Teal" data-farge="#008080">Teal</option>
+    <option value="Smaragdgrønn" data-farge="#008000">Smaragdgrønn</option>
+    <option value="Perlegrå" data-farge="#DCDCDC">Perlegrå</option>
+    <option value="Kirsebærrød" data-farge="#DE3163">Kirsebærrød</option>
+    <option value="Karamell" data-farge="#D2691E">Karamell</option>
+    <option value="Skyblå" data-farge="#87CEEB">Skyblå</option>
+    <option value="Kobber" data-farge="#B87333">Kobber</option>
+    <option value="Burgunder" data-farge="#800020">Burgunder</option>
+  </datalist>
+
   <button type="button" onclick="addProdukt()">Registrer</button>
   <button type="button" onclick="fillFormAutomatically()">Legg til 20 brukere</button>
   <button type="button" onclick="slettKundene()">Fjern alle brukere</button>
@@ -115,12 +156,14 @@
     <th>Bilskilt</th>
     <th>Bilmerke</th>
     <th>Bilmodel</th>
+    <th>Bilfarge</th>
     <th>Registrerings Sted</th>
     <th>Fjern</th>
   </tr>
 </table>
 
 <script>
+
   function slettKundene() {
     $.get( "/slettAlle", function( data ) {
       hentAlle();
@@ -133,26 +176,23 @@
     });
   }
   function formaterData(bil){
-    var ut =
+    let ut =
             "<tr>" +
-            "<th>PersonNr</th><th>Kjonn</th><th>Navn</th><th>Adresse</th><th>Bilskilt</th><th>Bilmerke</th><th>Bilmodel</th><th>Registrerings Sted</th><th>Fjern</th>\n" +
+            "<th>PersonNr</th><th>Kjonn</th><th>Navn</th><th>Adresse</th><th>Bilskilt</th><th>Bilmerke</th><th>Bilmodel</th><th>Bilfarge</th><th>Registrerings Sted</th><th>Fjern</th>\n" +
             "</tr>";
     for(let i in bil ){
-      ut+="<tr><td>"+bil[i].personNr+"</td><td>"+bil[i].kjonn+"</td><td>"+bil[i].navn+"</td><td>"+bil[i].adresse+"</td><td>"+bil[i].bilSkilt+"</td><td>"+bil[i].bilMerke+"</td><td>"+bil[i].bilModel+"</td><td>"+bil[i].sted+"</td><td>"+bil[i].fjern+"</td></tr>"
+      ut+="<tr><td>"+bil[i].personNr+"</td><td>"+bil[i].kjonn+"</td><td>"+bil[i].navn+"</td><td>"+bil[i].adresse+"</td><td>"+bil[i].bilSkilt+"</td><td>"+bil[i].bilMerke+"</td><td>"+bil[i].bilModel+"</td>"+bil[i].bilFarge+"<td>"+bil[i].sted+"</td><td>"+bil[i].fjern+"</td></tr>"
     }
     $("#bilTable").html(ut);
   }
   function addProdukt() {
 
     const personNr = document.getElementById("personNr").value;
-    const navn = document.getElementById("navn").value;
-    const adresse = document.getElementById("adresse").value;
     const bilSkilt = document.getElementById("bilSkilt").value;
-    const bilMerke = document.getElementById("bilMerke").value;
-    const bilModel = document.getElementById("bilModel").value;
-    const kjonn = getKjonnFromPersonNr(personNr);
     const skiltPrefix = bilSkilt.substring(0, 2).toLowerCase();
+    const bilFargeInput = $("#bilFarge");
     let sted = "";
+
 
     for (const item of byerOgBokstavkoder) {
       if (item.bokstavkoder.includes(skiltPrefix)) {
@@ -188,6 +228,7 @@
       bilSkilt : $("#bilSkilt").val().toUpperCase(),
       bilMerke : $("#bilMerke").val(),
       bilModel : $("#bilModel").val(),
+      bilFarge : genererFargeKode(bilFargeInput),
       sted : sted,
       fjern : "<button onclick=\"deleteProdukt(this)\">Slett</button>",
     }
@@ -201,46 +242,44 @@
     $("#bilSkilt").val("");
     $("#bilMerke").val("");
     $("#bilModel").val("");
-
-
-
-
-
-
-
-  /*  const table = document.getElementById("bilTable");
-    const row = table.insertRow(-1);
-    const cell1 = row.insertCell(0);
-    const cell2 = row.insertCell(1);
-    const cell3 = row.insertCell(2);
-    const cell4 = row.insertCell(3);
-    const cell5 = row.insertCell(4);
-    const cell6 = row.insertCell(5);
-    const cell7 = row.insertCell(6);
-    const cell8 = row.insertCell(7);
-    const cell9 = row.insertCell(8);
-    cell1.innerHTML = personNr;
-    cell2.innerHTML = kjonn;
-    cell3.innerHTML = navn;
-    cell4.innerHTML = adresse;
-    cell5.innerHTML = bilSkilt;
-    cell6.innerHTML = bilMerke;
-    cell7.innerHTML = bilModel;
-    cell8.innerHTML = sted;
-    cell9.innerHTML = '<button onclick="deleteProdukt(this)">Slett</button>';
-    document.getElementById("personNr").value = "";
-    document.getElementById("navn").value = "";
-    document.getElementById("adresse").value = "";
-    document.getElementById("bilSkilt").value = "";
-    document.getElementById("bilMerke").value = "";
-    document.getElementById("bilModel").value = "";
-   */
+    $("#bilFarge").val("");
 
   }
 
   function deleteProdukt(row) {
     const rowIndex = row.parentNode.parentNode.rowIndex;
     document.getElementById("bilTable").deleteRow(rowIndex);
+  }
+
+  function genererFargeKode(bilFarge) {
+    const valgtFargeNavn = bilFarge.val();
+    const optionElement = $("#bilFargeList option[value='" + valgtFargeNavn + "']");
+
+    // Sjekk om optionElement eksisterer
+    if (!optionElement.length) {
+      return ""; // Avslutt hvis elementet ikke finnes
+    }
+
+    // Få fargeverdien fra dataattributtet
+    const fargeKode = optionElement.data("farge");
+
+    // Håndter tilfeller der fargeverdien ikke er definert
+    if (!fargeKode) {
+      return "";
+    }
+
+    let tekstFarge = "black"; // Standard tekstfarge
+
+    const ikkeFarger = ["#000000", "#4B0082"];
+
+    // Konverter fargekoden til lowercase og standard hex-format
+   // const standardFargeKode = fargeKode.toLowerCase();
+
+    if (ikkeFarger.includes(fargeKode.toUpperCase())) {
+      tekstFarge = "white";
+    }
+
+    return "<td style=\"background-color: " + fargeKode + "; color: " + tekstFarge + ";\">" + valgtFargeNavn + "</td>";
   }
 
   function getKjonnFromPersonNr(personNr) {
@@ -432,6 +471,7 @@
       const bilSkilt = generateRandomCarPlate();
       const bilMerke = generateRandomCarBrand();
       const bilModel = generateRandomCarModel(bilMerke);
+      const bilFarge = generateRandomBilFarge();
 
       // Fyll ut skjemaet med de genererte verdiene
       document.getElementById("personNr").value = personNr;
@@ -440,12 +480,21 @@
       document.getElementById("bilSkilt").value = bilSkilt;
       document.getElementById("bilMerke").value = bilMerke;
       document.getElementById("bilModel").value = bilModel;
+      document.getElementById("bilFarge").value = bilFarge;
 
       // Legg til produkt i tabellen
       addProdukt();
     }
   }
 
+  function generateRandomBilFarge() {
+
+    const farger = document.getElementById("bilFargeList").options;
+
+    const randomIndex = Math.floor(Math.random() * farger.length);
+
+    return farger[randomIndex].value;
+  }
   // Funksjon for å generere gyldig personnummer
   function generateRandomPersonNr() {
     const randomYear = String(Math.floor(Math.random() * 100)).padStart(2, '0');
