@@ -2,7 +2,7 @@
 
 
 Dette registeret for biler holder styr på viktig info som personnummer, kjønn
-navn, adresse, bilskilt, bilmerke, registrerings sted og bilmodell. 
+navn, adresse, bilskilt, bilmerke, bilmodell, bilfarge og registrerings sted. 
 Målet med prosjektet er å bli bedre på HTML, 
 JavaScript og Java. 
 Jeg vil ikke bare lage en simpel motorvognregister, 
@@ -19,13 +19,17 @@ dette vil si at når du begynner å fylle ut adressen din så kommer det opp vis
 Den neste tingen som jeg la til sånn at det skulle være enklere for brukeren var å lage en data list men de mest kjente bilmerkene sånn at det er lettere for brukeren å skrive riktig bilmerke. 
 Her kunne jeg også brukt en API hvor alle bilmerkene lå inne men det gjorde det veldig vanskelig for meg å gjøre sånn at brukeren bare fikk opp modelene til bilmerket brukeren hadde valgt
 
+## Dataliste med Bilfarger
+
+Jeg tokk også å lagde en dataliste med mange fager og fargekoden til den fargen sånn at når du legger til fargen på lista så viser den fargen 
+
 ## Regler for fødselsnummer
 
-Jeg leste meg litt opp på hvordan strukturen på personn nummer er bygget opp på og fant ut at det var en ganske mange ting man måtte passe på f.eks, individ nummer, Kjønn og Kontrollsiffer.
+Jeg leste meg litt opp på hvordan strukturen på fødselsnummer er bygget opp på og fant ut at det var mye informasjon som var skult i et fødselsnummer f.eks, individ nummer, Kjønn og Kontrollsiffer. Her er noen av de tingene jeg fant ut: 
 
 #### Individ nummeret
 
-Individ nummeret er de 3 første tallene i personummeret disse forteller oss hvilket periode man er født i. 
+Individ nummeret er de 3 første tallene i personummeret disse forteller oss hvilket periode man er født i og hvilket kjønn man er. 
 Vis man er født mellom 1854-1899 har man mellom 500-749 som indivd nummer, 
 folk som er født mellom 1900-1999 har 000-499. 
 personer som er født mellom 2000-2035 kan ha mellom 500-899. 
@@ -40,7 +44,7 @@ I fødselsnummeret har vi også kontrollsiffer,
 dette er en sjekksum begregnet ut ifra de andre tallene i fødelsesnummeret, 
 dette er det mulig å regne ut men er et kanske komlpisert regnestykke.
 
-Alle disse kravene har jeg laget en kode som går igjenom å sjekker om det er et riktig fødselsnummer
+Dette har jeg impimintert slik at den regner ut og sjekker om du har skrevet et gyldig fødselsnummer.
 
 ## Regler for Bilskilt
 
@@ -54,14 +58,15 @@ spesielt vis det er regisrert mange biler.
 
 ## Automatisk fylle ut av skjemaet
 
-Jeg har også lagt til en knapp som heter 'Fyll ut automatisk'. 
+Jeg har også lagt til en knapp som heter 'Legg til 20 brukere'. 
 Hensikten med denne knappen er å gjøre det enklere å gjennomgå hvordan ting vil se ut. 
 Når du trykker på denne knappen, kjører den en funksjon jeg har laget. 
 Denne funksjonen genererer 20 tilfeldige personer og biler.
 
+
 #### Fødselsnummer
 
-Fødselsnummer som blir generert blir generert med riktig struktur. 
+Fødselsnummer blir generert blir generert med riktig struktur. 
 
 #### Navn
 
@@ -79,7 +84,8 @@ I tillegg lager den et tilfeldig bilskilt med riktig struktur.
 #### Bil og bilmerke
 
 Funksjonen velger også tilfeldig et bilmerke og en modell fra en liste over bilmerker og tilhørende modeller. 
-Dette gir en helhetlig og tilfeldig fiktiv informasjon når du bruker 'Fyll ut automatisk'-knappen.
+
+Dette gir en helhetlig og tilfeldig fiktiv informasjon når du bruker 'Legg til 20 brukere'-knappen.
 
 ## Slette knapp
 
