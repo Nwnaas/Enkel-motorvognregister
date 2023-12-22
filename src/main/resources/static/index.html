@@ -162,6 +162,13 @@
 </table>
 
 <script>
+    function scrollToTable() {
+        // Get the target element by id
+        var targetElement = document.getElementById("bilTable");
+
+        // Scroll to the target element
+        targetElement.scrollIntoView({ behavior: "smooth" });
+    }
 
     function slettKundene() {
         $.get("/slettAlle", hentAlle);
@@ -221,6 +228,8 @@
 
         // Tøm input-feltene
         $("#personNr, #navn, #adresse, #bilSkilt, #bilMerke, #bilModel, #bilFarge").val("");
+
+        scrollToTable();
     }
 
     function deleteProdukt(row) {
@@ -461,6 +470,7 @@
 
             // Legg til produkt i tabellen
             addProdukt();
+            scrollToTable();
         }
     }
 
