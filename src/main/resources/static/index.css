@@ -31,17 +31,21 @@ input {
     border-radius: 4px;
 }
 
-button {
-    background-color: #3498db;
+#slettAlle {
+    background-color: #2c3e50;
     color: white;
     padding: 12px 20px;
     border: none;
     cursor: pointer;
     border-radius: 4px;
+    margin-top: 10px;
+    font-weight: bold; /* Legg til denne linjen for å sikre fet tekst */
+    letter-spacing: normal; /* Legg til denne linjen for å sikre normal bokstavavstand */
+    font-size: 16px;
 }
 
-button:hover {
-    background-color: #2980b9;
+#slettAlle:hover {
+    background-color: #3d6fa6;
 }
 
 table {
