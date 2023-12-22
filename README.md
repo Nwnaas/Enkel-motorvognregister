@@ -318,6 +318,11 @@ Dette gjorde jeg ved å lage en stor liste å lagde en funksjon som lette etter 
    - [x] Endre navnet på knappen som legger til 20. brukere.
    - [x] Legge til bilmodellen "Eletre", som er en bil "Lotus" har laget.
    - [x] At jeg må endre litt på hvordan det ser ut siden det ser litt skjedelig ut.
+         
+### Før endringer av farge:
+![Motorvognregister](https://github.com/Nwnaas/Enkel-motorvognregister/assets/113027006/657f6c5e-063c-4b46-a504-99cf92d2f1ff)
+### Etter endringer av farge:
+![Motorvognregister · 8 41pm · 12-21](https://github.com/Nwnaas/Enkel-motorvognregister/assets/113027006/9c4f4432-bb32-4206-ba88-757aa5472199)
 
 # Litteaturliste
 
