@@ -25,21 +25,4 @@ public class MotorvognController {
         alleBiler.clear();
     }
 
-
-
-   /* private final List<Motorvogn> motorvognList = new ArrayList<>();
-
-    @GetMapping("/motorvogn")
-    public String visMotorvognSide(Model model) {
-        model.addAttribute("motorvognList", motorvognList);
-        return "motorvogn";
-    }
-
-    @PostMapping("/leggtillmotorvogn")
-    public String leggTilMotorvogn(@ModelAttribute Motorvogn motorvogn) {
-        motorvognList.add(motorvogn);
-        return "redirect:/motorvogn";
-    }
-
-    */
 }
