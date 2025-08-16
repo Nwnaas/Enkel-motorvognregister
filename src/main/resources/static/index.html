@@ -190,6 +190,10 @@
     function addProdukt() {
         const personNr = $("#personNr").val();
         const bilSkilt = $("#bilSkilt").val();
+        const navn = $("#navn").val();
+        const bilMerke = $("#bilMerke").val();
+        const bilModel = $("#bilModel").val();
+        const adresse = $("#adresse").val();
         const skiltPrefix = bilSkilt.substring(0, 2).toLowerCase();
         const bilFargeInput = $("#bilFarge");
         let sted = "";
@@ -200,6 +204,12 @@
         }
 
         sted = sted || "Ukjent sted";
+
+        if (!personNr || !navn || !adresse || !bilSkilt || !bilMerke || !bilModel) {
+            alert("Vennligst fyll ut alle felt.");
+            highlightEmptyFields();
+            return;
+        }
 
         if (!validatePersonNr(personNr)) {
             alert("Vennligst skriv inn et gyldig personnummer.");
@@ -230,6 +240,15 @@
         $("#personNr, #navn, #adresse, #bilSkilt, #bilMerke, #bilModel, #bilFarge").val("");
 
         scrollToTable();
+    }
+
+    function highlightEmptyFields() {
+        const formInputs = document.querySelectorAll('#bilForm input');
+        formInputs.forEach(input => {
+            if (!input.value) {
+                input.classList.add('error');
+            }
+        });
     }
 
     function deleteProdukt(row) {
